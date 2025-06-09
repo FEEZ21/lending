@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Видео</title>
+    <link rel="stylesheet" href="../../css/product-details.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="../../index.html" class="logo">
+                <img src="../../images/logo.png" alt="Logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="../../index.html#catalog">Каталог продукции</a></li>
+                <li><a href="../../cart.html">Корзина</a></li>
+                <li><a href="../../index.html#about">О нас</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="container">
+        <a href="../../products/video.html" class="back-link">← Назад к категории</a>
+        <div class="product-detail">
+            <img src="../../images/first.png" alt="Видео">
+            <h1>Видео</h1>
+            <p class="product-price">1000 ₽</p>
+            <p class="product-description">Видеопередатчик 1650 МГц 3 Вт.</p>
+            <button class="buy-button" onclick="addToCart(
+                {
+                    id: 
+                    'video-3', 
+                    name: 'Видео', 
+                    price: '1000 ₽', 
+                    image: '../../images/first.png', 
+                    description: 'Видеопередатчик 1650 МГц 3 Вт.'
+                }
+                )">В корзину</button>
+        </div>
+    </main>
+    <footer class="footer">
+        <p>&copy; 2024 Все права защищены</p>
+    </footer>
+    <script src="../../js/cart.js"></script>
+</body>
+</html> 

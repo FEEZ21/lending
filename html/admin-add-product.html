@@ -1,0 +1,95 @@
+<!-- html/admin-add-product.html -->
+
+<div class="admin-add-product-container">
+    <h2>Добавить новую категорию</h2>
+    <form id="add-product-form" enctype="multipart/form-data">
+        
+        
+        <div class="form-group">
+            <label for="product-category">Категория:</label>
+            <!-- Это поле на самом деле для НАЗВАНИЯ категории в данном случае -->
+            <!-- Возможно, стоит переименовать id и name для ясности -->
+            <input type="text" id="category-name" name="name" required> 
+        </div>
+        
+        <div class="form-group">
+            <label for="category-image">Изображение (одно):</label>
+            <input type="file" id="category-image" name="image" accept="image/*">
+        </div>
+        <button type="submit">Добавить категорию</button>
+    </form>
+    <p id="add-product-message"></p>
+</div>
+
+<style>
+/* Basic styling for the form */
+.admin-add-product-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.admin-add-product-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #4cae4c;
+}
+
+#add-product-message {
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.message-success {
+    color: green;
+}
+
+.message-error {
+    color: red;
+}
+</style> 

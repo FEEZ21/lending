@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог продукции</title>
+    <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="#" class="logo">
+                <img src="images/logo.png" alt="logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="#catalog" class="active">Каталог продукции</a></li>
+                <li><a href="#reviews">Обзоры</a></li>
+                <li><a href="#about">О нас</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="auth-btn login-btn">Войти</button>
+                <button class="auth-btn register-btn">Регистрация</button>
+                <button class="auth-btn logout-button" style="display: none;">Выйти</button>
+                <button id="admin-add-product-btn" style="display: none;" class="auth-btn">Добавить новую категорию</button>
+                <a href="cart.html" class="auth-btn cart-btn">Корзина</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section id="catalog" class="catalog">
+            <h1>Каталог продукции</h1>
+            <div class="filters">
+                <button class="filter-btn active">Все</button>
+                <button class="filter-btn">Популярное</button>
+                <button class="filter-btn">Новинки</button>
+            </div>
+            <div class="products-grid">
+                <!-- Products will be loaded dynamically -->
+            </div>
+        </section>
+
+        <section id="reviews" class="reviews">
+            <h2>Обзоры</h2>
+            <div class="reviews-container">
+                <!-- Reviews will be loaded dynamically -->
+            </div>
+        </section>
+
+        <section id="about" class="about">
+            <h2>О нас</h2>
+            <div class="about-content">
+                <p>Информация о компании будет добавлена здесь.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 Все права защищены</p>
+    </footer>
+
+    <script src="js/cart-utils.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/auth-modal.js"></script>
+</body>
+</html>

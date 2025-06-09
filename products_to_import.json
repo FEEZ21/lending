@@ -1,0 +1,514 @@
+[
+    {
+      "name": "Антенна Yagi",
+      "description": "Антенна круговой поляризации 5.8 ГГц.",
+      "price": 1500,
+      "category": "Антенны",
+      "images": ["images/antenna.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "Кабельная сборка SMA - PL-259 10 метров",
+      "description": "Антенна линейной поляризации 2.4 ГГц.",
+      "price": 2000,
+      "category": "Антенны",
+      "images": ["images/Кабель.jpeg"],
+      "stock": 10
+    },
+    {
+      "name": "Антенна Кубик 400-700 МГц",
+      "description": "Антенна направленного действия 900 МГц.",
+      "price": 2500,
+      "category": "Антенны",
+      "images": ["images/antennaKubik-400-700.png"],
+      "stock": 10
+    },
+    {
+      "name": "Антенна А34Д",
+      "description": "Антенна всенаправленная 433 МГц.",
+      "price": 3000,
+      "category": "Антенны",
+      "images": ["images/antenna-a34d.png"],
+      "stock": 10
+    },
+    {
+      "name": "Антенна угловая",
+      "description": "Антенна Yagi 1.2 ГГц.",
+      "price": 3500,
+      "category": "Антенны",
+      "images": ["images/antenna.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "Антенна линзовая",
+      "description": "Антенна спиральная 2.4 ГГц.",
+      "price": 4000,
+      "category": "Антенны",
+      "images": ["images/antenna.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "Антенна всенаправленная",
+      "description": "Антенна панельная 5.8 ГГц.",
+      "price": 4500,
+      "category": "Антенны",
+      "images": ["images/antenna.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "Антенна адаптивная",
+      "description": "Антенна MIMO 2.4/5.8 ГГц.",
+      "price": 5000,
+      "category": "Антенны",
+      "images": ["images/antenna.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "НСУ-40",
+      "description": "НСУ модель 40, 40 каналов, 25/3000 мВт.",
+      "price": 5000,
+      "category": "НСУ",
+      "images": ["images/nsy1.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "НСУ-41",
+      "description": "НСУ модель 41, 41 канал, 30/3200 мВт.",
+      "price": 5100,
+      "category": "НСУ",
+      "images": ["images/nsy2.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "НСУ-42",
+      "description": "НСУ модель 42, 42 канала, 35/3400 мВт.",
+      "price": 5200,
+      "category": "НСУ",
+      "images": ["images/nsy3.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "НСУ-43",
+      "description": "НСУ модель 43, 43 канала, 40/3600 мВт.",
+      "price": 5300,
+      "category": "НСУ",
+      "images": ["images/nsy1.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "НСУ-44",
+      "description": "НСУ модель 44, 44 канала, 45/3800 мВт.",
+      "price": 5400,
+      "category": "НСУ",
+      "images": ["images/nsy2.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "НСУ-45",
+      "description": "НСУ модель 45, 45 каналов, 50/4000 мВт.",
+      "price": 5500,
+      "category": "НСУ",
+      "images": ["images/nsy3.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "НСУ-46",
+      "description": "НСУ модель 46, 46 каналов, 55/4200 мВт.",
+      "price": 5600,
+      "category": "НСУ",
+      "images": ["images/nsy1.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "НСУ-47",
+      "description": "НСУ модель 47, 47 каналов, 60/4400 мВт.",
+      "price": 5700,
+      "category": "НСУ",
+      "images": ["images/nsy2.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "Квадрокоптер",
+      "description": "Видеопередатчик для квадрокоптеров.",
+      "price": 3000,
+      "category": "Квадрокоптер",
+      "images": ["images/квадрокоптер1.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "Квадрокоптер",
+      "description": "Видеопередатчик для квадрокоптеров.",
+      "price": 3000,
+      "category": "Квадрокоптер",
+      "images": ["images/квадрокоптер2.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "Квадрокоптер",
+      "description": "Видеопередатчик для квадрокоптеров.",
+      "price": 3000,
+      "category": "Квадрокоптер",
+      "images": ["images/квадрокоптер3.png"],
+      "stock": 10
+    },
+    {
+      "name": "Квадрокоптер",
+      "description": "Видеопередатчик для квадрокоптеров.",
+      "price": 3000,
+      "category": "Квадрокоптер",
+      "images": ["images/квадрокоптер4.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "Квадрокоптер",
+      "description": "Видеопередатчик для квадрокоптеров.",
+      "price": 3000,
+      "category": "Квадрокоптер",
+      "images": ["images/квадрокоптер5.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "Квадрокоптер",
+      "description": "Видеопередатчик для квадрокоптеров.",
+      "price": 3000,
+      "category": "Квадрокоптер",
+      "images": ["images/квадрокоптер6.jpeg"],
+      "stock": 10
+    },
+    {
+      "name": "Квадрокоптер",
+      "description": "Видеопередатчик для квадрокоптеров.",
+      "price": 3000,
+      "category": "Квадрокоптер",
+      "images": ["images/квадрокоптер7.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "Квадрокоптер",
+      "description": "Видеопередатчик для квадрокоптеров.",
+      "price": 3000,
+      "category": "Квадрокоптер",
+      "images": ["images/квадрокоптер8.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "РЭБ-1",
+      "description": "РЭБ комплекс 1, подавление сигналов.",
+      "price": 6000,
+      "category": "РЭБ",
+      "images": ["images/reb-1.png"],
+      "stock": 10
+    },
+    {
+      "name": "РЭБ-2",
+      "description": "РЭБ комплекс 2, расширенный диапазон.",
+      "price": 6100,
+      "category": "РЭБ",
+      "images": ["images/reb-2.png"],
+      "stock": 10
+    },
+    {
+      "name": "РЭБ-3",
+      "description": "РЭБ комплекс 3, мобильная версия.",
+      "price": 6200,
+      "category": "РЭБ",
+      "images": ["images/reb-3.png"],
+      "stock": 10
+    },
+    {
+      "name": "РЭБ-4",
+      "description": "РЭБ комплекс 4, стационарный вариант.",
+      "price": 6300,
+      "category": "РЭБ",
+      "images": ["images/reb-4.png"],
+      "stock": 10
+    },
+    {
+      "name": "РЭБ-5",
+      "description": "РЭБ комплекс 5, повышенная мощность.",
+      "price": 6400,
+      "category": "РЭБ",
+      "images": ["images/reb-5.png"],
+      "stock": 10
+    },
+    {
+      "name": "РЭБ-6",
+      "description": "РЭБ комплекс 6, компактный.",
+      "price": 6500,
+      "category": "РЭБ",
+      "images": ["images/reb-6.png"],
+      "stock": 10
+    },
+    {
+      "name": "РЭБ-7",
+      "description": "РЭБ комплекс 7, автономный.",
+      "price": 6600,
+      "category": "РЭБ",
+      "images": ["images/reb-7.png"],
+      "stock": 10
+    },
+    {
+      "name": "РЭБ-8",
+      "description": "РЭБ комплекс 8, новейшая разработка.",
+      "price": 6700,
+      "category": "РЭБ",
+      "images": ["images/reb-8.png"],
+      "stock": 10
+    },
+    {
+      "name": "РЭР-1",
+      "description": "РЭР устройство 1, обнаружение сигналов.",
+      "price": 7000,
+      "category": "РЭР",
+      "images": ["images/rer-1.png"],
+      "stock": 10
+    },
+    {
+      "name": "РЭР-2",
+      "description": "РЭР устройство 2, расширенный диапазон.",
+      "price": 7100,
+      "category": "РЭР",
+      "images": ["images/rer-2.png"],
+      "stock": 10
+    },
+    {
+      "name": "РЭР-3",
+      "description": "РЭР устройство 3, мобильная версия.",
+      "price": 7200,
+      "category": "РЭР",
+      "images": ["images/rer-3.png"],
+      "stock": 10
+    },
+    {
+      "name": "РЭР-4",
+      "description": "РЭР устройство 4, стационарный вариант.",
+      "price": 7300,
+      "category": "РЭР",
+      "images": ["images/rer-4.png"],
+      "stock": 10
+    },
+    {
+      "name": "РЭР-5",
+      "description": "РЭР устройство 5, повышенная мощность.",
+      "price": 7400,
+      "category": "РЭР",
+      "images": ["images/rer-5.png"],
+      "stock": 10
+    },
+    {
+      "name": "РЭР-6",
+      "description": "РЭР устройство 6, компактный.",
+      "price": 7500,
+      "category": "РЭР",
+      "images": ["images/rer-6.png"],
+      "stock": 10
+    },
+    {
+      "name": "РЭР-7",
+      "description": "РЭР устройство 7, автономный.",
+      "price": 7600,
+      "category": "РЭР",
+      "images": ["images/rer-7.png"],
+      "stock": 10
+    },
+    {
+      "name": "РЭР-8",
+      "description": "РЭР устройство 8, новейшая разработка.",
+      "price": 7700,
+      "category": "РЭР",
+      "images": ["images/rer-8.png"],
+      "stock": 10
+    },
+    {
+      "name": "Связь",
+      "description": "Устройство для связи 1.",
+      "price": 4000,
+      "category": "Связь",
+      "images": ["images/связь.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "Связь",
+      "description": "Устройство для связи 2.",
+      "price": 4100,
+      "category": "Связь",
+      "images": ["images/связь.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "Связь",
+      "description": "Устройство для связи 3.",
+      "price": 4200,
+      "category": "Связь",
+      "images": ["images/связь.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "Связь",
+      "description": "Устройство для связи 4.",
+      "price": 4300,
+      "category": "Связь",
+      "images": ["images/связь.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "Связь",
+      "description": "Устройство для связи 5.",
+      "price": 4400,
+      "category": "Связь",
+      "images": ["images/связь.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "Связь",
+      "description": "Устройство для связи 6.",
+      "price": 4500,
+      "category": "Связь",
+      "images": ["images/связь.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "Связь",
+      "description": "Устройство для связи 7.",
+      "price": 4600,
+      "category": "Связь",
+      "images": ["images/связь.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "Связь",
+      "description": "Устройство для связи 8.",
+      "price": 4700,
+      "category": "Связь",
+      "images": ["images/связь.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "Видео",
+      "description": "Видеопередатчик 1650 МГц 3 Вт.",
+      "price": 1000,
+      "category": "Видео",
+      "images": ["images/first.png"],
+      "stock": 10
+    },
+    {
+      "name": "Видео",
+      "description": "Видеопередатчик 1650 МГц 3 Вт.",
+      "price": 1000,
+      "category": "Видео",
+      "images": ["images/video1.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "Видео",
+      "description": "Видеопередатчик 1650 МГц 3 Вт.",
+      "price": 1000,
+      "category": "Видео",
+      "images": ["images/video2.webp"],
+      "stock": 10
+    },
+    {
+      "name": "Видео",
+      "description": "Видеопередатчик 1650 МГц 3 Вт.",
+      "price": 1000,
+      "category": "Видео",
+      "images": ["images/video3.jpg"],
+      "stock": 10
+    },
+    {
+      "name": "Видео",
+      "description": "Видеопередатчик 1650 МГц 3 Вт.",
+      "price": 1000,
+      "category": "Видео",
+      "images": ["images/video4.jpeg"],
+      "stock": 10
+    },
+    {
+      "name": "Видео",
+      "description": "Видеопередатчик 1650 МГц 3 Вт.",
+      "price": 1000,
+      "category": "Видео",
+      "images": ["images/video5.webp"],
+      "stock": 10
+    },
+    {
+      "name": "Видео",
+      "description": "Видеопередатчик 1650 МГц 3 Вт.",
+      "price": 1000,
+      "category": "Видео",
+      "images": ["images/video6.webp"],
+      "stock": 10
+    },
+    {
+      "name": "Видео",
+      "description": "Видеопередатчик 1650 МГц 3 Вт.",
+      "price": 1000,
+      "category": "Видео",
+      "images": ["images/video7.webp"],
+      "stock": 10
+    },
+    {
+      "name": "АКБ-1",
+      "description": "АКБ модель 1, 3000 мАч, Li-Ion.",
+      "price": 8000,
+      "category": "АКБ",
+      "images": ["images/akb-1.png"],
+      "stock": 10
+    },
+    {
+      "name": "АКБ-2",
+      "description": "АКБ модель 2, 3200 мАч, Li-Ion.",
+      "price": 8100,
+      "category": "АКБ",
+      "images": ["images/akb-2.png"],
+      "stock": 10
+    },
+    {
+      "name": "АКБ-3",
+      "description": "АКБ модель 3, 3400 мАч, Li-Ion.",
+      "price": 8200,
+      "category": "АКБ",
+      "images": ["images/akb-3.png"],
+      "stock": 10
+    },
+    {
+      "name": "АКБ-4",
+      "description": "АКБ модель 4, 3600 мАч, Li-Ion.",
+      "price": 8300,
+      "category": "АКБ",
+      "images": ["images/akb-4.png"],
+      "stock": 10
+    },
+    {
+      "name": "АКБ-5",
+      "description": "АКБ модель 5, 3800 мАч, Li-Ion.",
+      "price": 8400,
+      "category": "АКБ",
+      "images": ["images/akb-5.png"],
+      "stock": 10
+    },
+    {
+      "name": "АКБ-6",
+      "description": "АКБ модель 6, 4000 мАч, Li-Ion.",
+      "price": 8500,
+      "category": "АКБ",
+      "images": ["images/akb-6.png"],
+      "stock": 10
+    },
+    {
+      "name": "АКБ-7",
+      "description": "АКБ модель 7, 4200 мАч, Li-Ion.",
+      "price": 8600,
+      "category": "АКБ",
+      "images": ["images/akb-7.png"],
+      "stock": 10
+    },
+    {
+      "name": "АКБ-8",
+      "description": "АКБ модель 8, 4400 мАч, Li-Ion.",
+      "price": 8700,
+      "category": "АКБ",
+      "images": ["images/akb-8.png"],
+      "stock": 10
+    }
+  ]

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>НСУ 2</title>
+    <link rel="stylesheet" href="../../css/product-details.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="../../index.html" class="logo">
+                <img src="../../images/logo.png" alt="Logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="../../index.html#catalog">Каталог продукции</a></li>
+                <li><a href="../../cart.html">Корзина</a></li>
+                <li><a href="../../index.html#about">О нас</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="container">
+        <a href="../../products/nsu.html" class="back-link">← Назад к категории</a>
+        <div class="product-detail">
+            <img src="../../images/antenna.jpg" alt="nsu">
+            <h1>НСУ 2</h1>
+            <p class="product-price">11100 ₽</p>
+            <p class="product-description">Навигационная система управления, точность 1.5 м</p>
+            <button class="buy-button" onclick="addToCart({
+                id: 'nsu-2',
+                name: 'НСУ 2',
+                price: '11100 ₽',
+                image: '../../images/antenna.jpg',
+                description: 'Навигационная система управления, точность 1.5 м'
+            })">В корзину</button>
+        </div>
+    </main>
+    <footer class="footer">
+        <p>&copy; 2024 Все права защищены</p>
+    </footer>
+    <script src="../../js/cart.js"></script>
+</body>
+</html>
