@@ -61,6 +61,14 @@ class AuthModal {
             await this.handleRegister();
         });
 
+        // Добавляем форматирование номера телефона
+        const registerPhoneInput = this.modal.querySelector('#registerPhone');
+        if (registerPhoneInput) {
+            registerPhoneInput.addEventListener('input', (e) => {
+                e.target.value = this.formatPhoneNumber(e.target.value);
+            });
+        }
+
         // Обработка "Забыли пароль"
         this.modal.querySelector('#forgotPassword').addEventListener('click', (e) => {
             e.preventDefault();
@@ -157,13 +165,30 @@ class AuthModal {
         }
         if (!phone) {
             errors.push({ path: 'phone', msg: 'Пожалуйста, введите телефон' });
-        } else if (!/^\+7/.test(phone)) {
-            errors.push({ path: 'phone', msg: 'Номер телефона должен начинаться с +7' });
         }
 
         if (errors.length > 0) {
             this.displayErrors(errors);
             return; // Останавливаем выполнение, если есть ошибки
+        }
+
+        // Очищаем номер телефона перед отправкой на сервер
+        const cleanedPhone = phone.replace(/\D/g, ''); // Удаляем все нецифровые символы
+        // Если номер начинается с 8 или 9, и это российский формат, заменяем на 7
+        let finalPhone = cleanedPhone;
+        if (cleanedPhone.length >= 1 && ['7', '8', '9'].includes(cleanedPhone[0])) {
+             // Если введено 8, меняем на 7
+            if (cleanedPhone[0] === '8') {
+                finalPhone = '7' + cleanedPhone.substring(1);
+            }
+             // Если введено 9, добавляем 7
+            else if (cleanedPhone[0] === '9') {
+                finalPhone = '7' + cleanedPhone;
+            }
+        }
+        // Добавляем префикс + если его нет
+        if (!finalPhone.startsWith('+')) {
+            finalPhone = `+${finalPhone}`;
         }
 
         try {
@@ -172,7 +197,7 @@ class AuthModal {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ name, email, password, phone })
+                body: JSON.stringify({ name, email, password, phone: finalPhone }) // Отправляем очищенный номер
             });
 
             const data = await response.json();
@@ -402,6 +427,57 @@ class AuthModal {
 
     hide() {
         this.modal.style.display = 'none';
+    }
+
+    // Новая функция для форматирования номера телефона
+    formatPhoneNumber(phoneNumber) {
+        let cleaned = phoneNumber.replace(/\D/g, ''); // Оставляем только цифры
+
+        let formatted = '';
+        if (cleaned.length === 0) {
+            return '';
+        }
+
+        // Автоматически добавляем +7, если пользователь начинает с 8 или 9
+        if (cleaned.length === 1 && ['7', '8', '9'].includes(cleaned[0])) {
+            if (cleaned[0] === '8') {
+                formatted = '+7 (';
+            } else if (cleaned[0] === '9') {
+                formatted = '+7 (';
+            } else { // Если 7, то просто начинаем с +7
+                 formatted = '+7 (';
+            }
+            cleaned = cleaned.substring(1); // Убираем первую цифру, т.к. ее уже обработали
+        } else if (cleaned.length > 1 && ['7', '8', '9'].includes(cleaned[0])) {
+             // Если пользователь уже ввел +7, или мы добавили его ранее, пропускаем
+             if (cleaned[0] === '8') {
+                 cleaned = cleaned.substring(1); // Убираем 8
+             } else if (cleaned[0] === '7') {
+                 // Если уже 7, оставляем как есть
+             }
+             formatted = '+7 (';
+        } else if (cleaned.length > 0 && cleaned[0] !== '+') {
+            // Для международных номеров, которые не начинаются с + (например, 12345)
+            formatted = `+${cleaned[0]}`;
+            cleaned = cleaned.substring(1);
+        }
+        
+        if (cleaned.length > 0) {
+            if (cleaned.length > 0) {
+                formatted += cleaned.substring(0, 3);
+            }
+            if (cleaned.length >= 4) {
+                formatted += ') ' + cleaned.substring(3, 6);
+            }
+            if (cleaned.length >= 7) {
+                formatted += '-' + cleaned.substring(6, 8);
+            }
+            if (cleaned.length >= 9) {
+                formatted += '-' + cleaned.substring(8, 10);
+            }
+        }
+
+        return formatted;
     }
 }
 
