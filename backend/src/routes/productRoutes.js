@@ -22,6 +22,7 @@ router.get('/', async (req, res) => {
         const query = category ? { category } : {};
         
         const products = await Product.find(query);
+        console.log(`Fetched ${products.length} products from MongoDB.`);
         res.json(products);
     } catch (error) {
         console.error('Error fetching products:', error);
