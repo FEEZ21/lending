@@ -157,6 +157,8 @@ class AuthModal {
         }
         if (!phone) {
             errors.push({ path: 'phone', msg: 'Пожалуйста, введите телефон' });
+        } else if (!/^\+7/.test(phone)) {
+            errors.push({ path: 'phone', msg: 'Номер телефона должен начинаться с +7' });
         }
 
         if (errors.length > 0) {
