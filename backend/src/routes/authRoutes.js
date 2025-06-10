@@ -14,4 +14,4 @@ router.get('/verify-email', authController.verifyEmail);
 // Повторная отправка письма с подтверждением
 router.post('/resend-verification', authController.resendVerification);
 
-module.exports = router; 
+module.exports = router;

@@ -201,13 +201,13 @@ class AuthModal {
             if (response.ok) {
                 // Сохраняем email для возможной повторной отправки письма
                 localStorage.setItem('pendingVerificationEmail', email);
-                
+
                 // Показываем сообщение об успешной регистрации
                 this.showNotification('Регистрация успешна! Пожалуйста, проверьте вашу почту для подтверждения email.', 'success');
-                
+
                 // Закрываем модальное окно через 3 секунды
                 setTimeout(() => {
-                    this.closeModal();
+                    this.hide();
                 }, 3000);
             } else {
                 this.showNotification(data.message || 'Ошибка при регистрации', 'error');
@@ -527,7 +527,7 @@ class AuthModal {
                 
                 // Закрываем модальное окно через 3 секунды
                 setTimeout(() => {
-                    this.closeModal();
+                    this.hide();
                 }, 3000);
             } else {
                 this.showNotification(data.message || 'Ошибка при регистрации', 'error');
