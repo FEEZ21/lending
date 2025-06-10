@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         // Fetch product details from the backend
-        const response = await fetch(`http://127.0.0.1:5000/api/products/${productId}`);
+        const response = await fetch(`https://lending-juaw.onrender.com/api/products/${productId}`);
         if (!response.ok) {
             if (response.status === 404) {
                 document.querySelector('.product-details').innerHTML = '<p>Товар не найден.</p>';
@@ -35,23 +35,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const productImageElement = document.getElementById('product-image');
         if (productImageElement) {
-            let imageUrl = product.image; // Предполагаем, что новое поле image
-
-            // Для обратной совместимости со старыми товарами, если они используют images (массив)
-            if (!imageUrl && product.images && product.images.length > 0) {
-                imageUrl = product.images[0];
-            }
+            let imageUrl = product.images && product.images.length > 0 ? product.images[0] : null; // Use product.images array
 
             if (!imageUrl) {
                 imageUrl = 'images/placeholder.png';
             }
 
-            // Добавляем полный URL, если путь относительный
-            if (!imageUrl.startsWith('http://') && !imageUrl.startsWith('https://')) {
-                productImageElement.src = `http://127.0.0.1:5000/${imageUrl}`;
-            } else {
-                productImageElement.src = imageUrl;
-            }
+            // Изображения теперь обслуживаются фронтендом статически, убираем префикс бэкенда
+            productImageElement.src = imageUrl;
             productImageElement.alt = product.name;
         }
 
@@ -68,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             try {
-                const response = await fetch('http://127.0.0.1:5000/api/cart/items', {
+                const response = await fetch('https://lending-juaw.onrender.com/api/cart/items', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
