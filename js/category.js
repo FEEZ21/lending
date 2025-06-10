@@ -1,11 +1,25 @@
 document.addEventListener('DOMContentLoaded', async () => {
-    // Get category name from URL parameters
+    // Get category ID from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
-    const categoryName = urlParams.get('name');
+    const categoryId = urlParams.get('id');
     
-    if (!categoryName) {
+    if (!categoryId) {
         window.location.href = 'index.html';
         return;
+    }
+
+    let categoryName = 'Категория'; // Default title
+    try {
+        // Fetch category details to get the name
+        const categoryResponse = await fetch(`https://lending-juaw.onrender.com/api/categories/${categoryId}`);
+        if (categoryResponse.ok) {
+            const categoryData = await categoryResponse.json();
+            categoryName = categoryData.name;
+        } else {
+            console.warn('Could not fetch category name for ID:', categoryId);
+        }
+    } catch (error) {
+        console.error('Error fetching category details:', error);
     }
 
     // Update page title
@@ -27,8 +41,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     try {
-        // Fetch products for this category
-        const response = await fetch(`http://127.0.0.1:5000/api/products?category=${encodeURIComponent(categoryName)}`);
+        // Fetch products for this category using the category name from fetched data
+        // (Assuming backend can filter by category name string, otherwise need to adjust backend for ID filtering)
+        const response = await fetch(`https://lending-juaw.onrender.com/api/products?category=${encodeURIComponent(categoryName)}`);
         if (!response.ok) {
             throw new Error('Failed to fetch products');
         }
@@ -57,23 +72,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 const imgElement = cardElement.querySelector('img');
                 if (imgElement) {
-                    let imageUrl = product.image; // Предполагаем, что новое поле image
-
-                    // Для обратной совместимости со старыми товарами, если они используют images (массив)
-                    if (!imageUrl && product.images && product.images.length > 0) {
-                        imageUrl = product.images[0];
-                    }
+                    let imageUrl = product.images && product.images.length > 0 ? product.images[0] : null; // Use product.images array
 
                     if (!imageUrl) {
                         imageUrl = 'images/placeholder.png';
                     }
 
-                    // Добавляем полный URL, если путь относительный
-                    if (!imageUrl.startsWith('http://') && !imageUrl.startsWith('https://')) {
-                        imgElement.src = `http://127.0.0.1:5000/${imageUrl}`;
-                    } else {
-                        imgElement.src = imageUrl;
-                    }
+                    // Изображения теперь обслуживаются фронтендом статически, убираем префикс бэкенда
+                    imgElement.src = imageUrl;
                     imgElement.alt = product.name;
                 }
 
