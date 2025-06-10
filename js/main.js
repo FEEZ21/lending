@@ -126,7 +126,7 @@ async function renderProducts(filters = {}) { // Added filters parameter
     // Fetch products from the backend
     let products = [];
     try {
-        const response = await fetch(`http://127.0.0.1:5000/api/products?${queryString}`);
+        const response = await fetch(`https://lending-juaw.onrender.com/api/products?${queryString}`);
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -171,7 +171,7 @@ async function renderProducts(filters = {}) { // Added filters parameter
 
                 // Добавляем полный URL, если путь относительный
                 if (!imageUrl.startsWith('http://') && !imageUrl.startsWith('https://')) {
-                    imgElement.src = `http://127.0.0.1:5000/${imageUrl}`;
+                    imgElement.src = `https://lending-juaw.onrender.com/${imageUrl}`;
                 } else {
                     imgElement.src = imageUrl;
                 }
