@@ -61,11 +61,24 @@ class AuthModal {
             await this.handleRegister();
         });
 
-        // Добавляем форматирование номера телефона
+        // Устанавливаем значение по умолчанию и добавляем форматирование для номера телефона
         const registerPhoneInput = this.modal.querySelector('#registerPhone');
         if (registerPhoneInput) {
+            if (registerPhoneInput.value === '') {
+                registerPhoneInput.value = '+7'; // Устанавливаем +7 по умолчанию
+            }
             registerPhoneInput.addEventListener('input', (e) => {
-                e.target.value = this.formatPhoneNumber(e.target.value);
+                const cursorPosition = e.target.selectionStart;
+                const oldValue = e.target.value;
+                const formattedValue = this.formatPhoneNumber(oldValue); // Передаем старое значение для обработки
+
+                e.target.value = formattedValue;
+
+                // Попытка сохранить позицию курсора
+                let newCursorPosition = cursorPosition + (formattedValue.length - oldValue.length);
+                if (newCursorPosition < 0) newCursorPosition = 0;
+                if (newCursorPosition > formattedValue.length) newCursorPosition = formattedValue.length;
+                e.target.setSelectionRange(newCursorPosition, newCursorPosition);
             });
         }
 
@@ -163,8 +176,11 @@ class AuthModal {
         if (!password) {
             errors.push({ path: 'password', msg: 'Пожалуйста, введите пароль' });
         }
-        if (!phone) {
-            errors.push({ path: 'phone', msg: 'Пожалуйста, введите телефон' });
+
+        // Валидация номера телефона после форматирования
+        const cleanedPhoneForValidation = phone.replace(/\D/g, ''); // Удаляем все нецифровые символы
+        if (cleanedPhoneForValidation.length !== 11 || !cleanedPhoneForValidation.startsWith('7')) {
+            errors.push({ path: 'phone', msg: 'Пожалуйста, введите корректный российский номер телефона (+7XXXXXXXXXX)' });
         }
 
         if (errors.length > 0) {
@@ -172,24 +188,8 @@ class AuthModal {
             return; // Останавливаем выполнение, если есть ошибки
         }
 
-        // Очищаем номер телефона перед отправкой на сервер
-        const cleanedPhone = phone.replace(/\D/g, ''); // Удаляем все нецифровые символы
-        // Если номер начинается с 8 или 9, и это российский формат, заменяем на 7
-        let finalPhone = cleanedPhone;
-        if (cleanedPhone.length >= 1 && ['7', '8', '9'].includes(cleanedPhone[0])) {
-             // Если введено 8, меняем на 7
-            if (cleanedPhone[0] === '8') {
-                finalPhone = '7' + cleanedPhone.substring(1);
-            }
-             // Если введено 9, добавляем 7
-            else if (cleanedPhone[0] === '9') {
-                finalPhone = '7' + cleanedPhone;
-            }
-        }
-        // Добавляем префикс + если его нет
-        if (!finalPhone.startsWith('+')) {
-            finalPhone = `+${finalPhone}`;
-        }
+        // Номер телефона уже отформатирован и очищен до +7XXXXXXXXXX
+        const finalPhone = `+${cleanedPhoneForValidation}`;
 
         try {
             const response = await fetch('https://lending-juaw.onrender.com/api/auth/register', {
@@ -429,52 +429,40 @@ class AuthModal {
         this.modal.style.display = 'none';
     }
 
-    // Новая функция для форматирования номера телефона
+    // Новая функция для форматирования номера телефона (строгая российская маска)
     formatPhoneNumber(phoneNumber) {
         let cleaned = phoneNumber.replace(/\D/g, ''); // Оставляем только цифры
 
-        let formatted = '';
+        // Убедимся, что всегда начинается с '7' для российского номера
         if (cleaned.length === 0) {
-            return '';
+            return '+7'; // Дефолтное значение
         }
 
-        // Автоматически добавляем +7, если пользователь начинает с 8 или 9
-        if (cleaned.length === 1 && ['7', '8', '9'].includes(cleaned[0])) {
-            if (cleaned[0] === '8') {
-                formatted = '+7 (';
-            } else if (cleaned[0] === '9') {
-                formatted = '+7 (';
-            } else { // Если 7, то просто начинаем с +7
-                 formatted = '+7 (';
-            }
-            cleaned = cleaned.substring(1); // Убираем первую цифру, т.к. ее уже обработали
-        } else if (cleaned.length > 1 && ['7', '8', '9'].includes(cleaned[0])) {
-             // Если пользователь уже ввел +7, или мы добавили его ранее, пропускаем
-             if (cleaned[0] === '8') {
-                 cleaned = cleaned.substring(1); // Убираем 8
-             } else if (cleaned[0] === '7') {
-                 // Если уже 7, оставляем как есть
-             }
-             formatted = '+7 (';
-        } else if (cleaned.length > 0 && cleaned[0] !== '+') {
-            // Для международных номеров, которые не начинаются с + (например, 12345)
-            formatted = `+${cleaned[0]}`;
-            cleaned = cleaned.substring(1);
+        if (cleaned[0] === '8') {
+            cleaned = '7' + cleaned.substring(1); // Заменяем 8 на 7
+        } else if (cleaned[0] !== '7') {
+            cleaned = '7' + cleaned; // Добавляем 7, если начинается не с 7
         }
-        
-        if (cleaned.length > 0) {
-            if (cleaned.length > 0) {
-                formatted += cleaned.substring(0, 3);
-            }
-            if (cleaned.length >= 4) {
-                formatted += ') ' + cleaned.substring(3, 6);
-            }
-            if (cleaned.length >= 7) {
-                formatted += '-' + cleaned.substring(6, 8);
-            }
-            if (cleaned.length >= 9) {
-                formatted += '-' + cleaned.substring(8, 10);
-            }
+
+        // Ограничиваем до 11 цифр (7 + 10 цифр)
+        if (cleaned.length > 11) {
+            cleaned = cleaned.substring(0, 11);
+        }
+
+        let formatted = '+7';
+
+        // Применяем маску: (XXX) XXX-XX-XX
+        if (cleaned.length > 1) {
+            formatted += ' (' + cleaned.substring(1, Math.min(4, cleaned.length));
+        }
+        if (cleaned.length >= 4) {
+            formatted += ') ' + cleaned.substring(4, Math.min(7, cleaned.length));
+        }
+        if (cleaned.length >= 7) {
+            formatted += '-' + cleaned.substring(7, Math.min(9, cleaned.length));
+        }
+        if (cleaned.length >= 9) {
+            formatted += '-' + cleaned.substring(9, Math.min(11, cleaned.length));
         }
 
         return formatted;
