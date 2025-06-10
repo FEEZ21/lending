@@ -26,17 +26,16 @@ const reviews = [
     }
 ];
 
-const productsGrid = document.querySelector('.products-grid');
+const mainContentGrid = document.querySelector('.products-grid'); // Renamed from productsGrid
 const filterButtons = document.querySelectorAll('.filter-btn');
 const reviewsContainer = document.querySelector('.reviews-container');
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Call renderProducts to fetch and display products based on current filter
-    renderProducts();
-    renderReviews(reviews); // Reviews still use static data
+    renderCategories(); // Call new function to render categories
+    renderReviews(reviews);
     setupNavigation();
     setupAdminButton();
-    setupFilterButtons(); // Added new function for filter buttons
+    setupFilterButtons();
 });
 
 // Added: Function to check user role and display/setup admin button
@@ -85,116 +84,98 @@ function setupFilterButtons() {
             // Add active class to the clicked button
             e.target.classList.add('active');
 
-            const filterType = e.target.textContent; // Get filter type (e.g., "Все", "Популярное", "Новинки")
-            let queryParams = {};
-
-            if (filterType === 'Популярное') {
-                queryParams = { featured: true };
-            } else if (filterType === 'Новинки') {
-                queryParams = { sortBy: 'createdAt', order: 'desc' };
-            } else { // "Все"
-                queryParams = {};
-            }
-            renderProducts(queryParams); // Render products with new filter
+            // For now, just re-render all categories when a filter button is clicked
+            // If category specific filtering is needed, this logic will be extended
+            renderCategories();
         });
     });
 }
 
-// Modified: Fetch products from the backend and render them
-async function renderProducts(filters = {}) { // Added filters parameter
-    if (!productsGrid) return;
+// New function: Fetch categories from the backend and render them
+async function renderCategories() {
+    if (!mainContentGrid) return; // Use the renamed grid
 
-    // Load product card template
+    // Load product card template (reusing for category cards)
     let cardTemplate = '';
     try {
-        const response = await fetch('html/main-product-card.html');
+        const response = await fetch('html/main-product-card.html'); // Reusing existing product card template
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         cardTemplate = await response.text();
     } catch (error) {
-        console.error('Error loading card HTML template:', error);
-        productsGrid.innerHTML = '<p>Не удалось загрузить шаблон карточки.</p>';
+        console.error('Error loading card HTML template for categories:', error);
+        mainContentGrid.innerHTML = '<p>Не удалось загрузить шаблон карточки категории.</p>';
         return;
     }
 
-    // Construct query string from filters object
-    const queryString = Object.keys(filters)
-        .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(filters[key])}`)
-        .join('&');
-
-    // Fetch products from the backend
-    let products = [];
+    // Fetch categories from the backend
+    let categories = [];
     try {
-        const response = await fetch(`https://lending-juaw.onrender.com/api/products?${queryString}`);
+        const response = await fetch(`https://lending-juaw.onrender.com/api/categories`); // Fetch categories
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
-        products = await response.json();
+        categories = await response.json();
+        console.log(`Fetched ${categories.length} categories from MongoDB.`);
     } catch (error) {
-        console.error('Error fetching products from backend:', error);
-        productsGrid.innerHTML = '<p>Не удалось загрузить товары с сервера.</p>';
+        console.error('Error fetching categories from backend:', error);
+        mainContentGrid.innerHTML = '<p>Не удалось загрузить категории с сервера.</p>';
         return;
     }
 
-    productsGrid.innerHTML = '';
+    mainContentGrid.innerHTML = '';
 
-    if (products.length === 0) {
-        productsGrid.innerHTML = '<p>Товаров пока нет.</p>';
+    if (categories.length === 0) {
+        mainContentGrid.innerHTML = '<p>Категорий пока нет.</p>';
         return;
     }
 
-    products.forEach(product => {
+    categories.forEach(category => {
         const tempDiv = document.createElement('div');
         tempDiv.innerHTML = cardTemplate.trim();
         const cardElement = tempDiv.firstChild;
 
         if (cardElement) {
-            // Update the link href to point to product details
+            // Update the link href to point to category page (e.g., category.html?id=...)
             const linkElement = cardElement.querySelector('.product-link');
             if (linkElement) {
-                linkElement.href = `product.html?id=${product._id}`;
+                linkElement.href = `category.html?id=${category._id}`; // Link to category details page
             }
 
             const imgElement = cardElement.querySelector('img');
             if (imgElement) {
-                let imageUrl = product.image; 
-
-                // Для обратной совместимости со старыми товарами, если они используют images (массив)
-                if (!imageUrl && product.images && product.images.length > 0) {
-                    imageUrl = product.images[0];
-                }
+                let imageUrl = category.image; // Category data has 'image' field (string)
 
                 if (!imageUrl) {
-                    imageUrl = 'images/placeholder.png';
+                    imageUrl = 'images/placeholder.png'; // Fallback
                 }
 
-                // Добавляем полный URL, если путь относительный
+                // Add full URL if path is relative
                 if (!imageUrl.startsWith('http://') && !imageUrl.startsWith('https://')) {
                     imgElement.src = `https://lending-juaw.onrender.com/${imageUrl}`;
                 } else {
                     imgElement.src = imageUrl;
                 }
-                imgElement.alt = product.name;
+                imgElement.alt = category.name;
             }
 
             const h3Element = cardElement.querySelector('h3');
             if (h3Element) {
-                h3Element.textContent = product.name;
+                h3Element.textContent = category.name;
             }
             
-            // Добавляем отображение цены (если есть)
+            // Remove product-specific elements if they exist in the template
             const priceElement = cardElement.querySelector('.product-price');
-            if (priceElement && product.price) {
-                priceElement.textContent = `${product.price} ₽`;
+            if (priceElement) {
+                priceElement.remove(); // Remove price element
             }
-            // Добавляем отображение описания (если есть)
             const descriptionElement = cardElement.querySelector('.product-description');
-            if (descriptionElement && product.description) {
-                descriptionElement.textContent = product.description;
+            if (descriptionElement) {
+                descriptionElement.remove(); // Remove description element
             }
 
-            productsGrid.appendChild(cardElement);
+            mainContentGrid.appendChild(cardElement);
         }
     });
 }
