@@ -10,7 +10,7 @@ const app = express();
 
 // Middleware
 // Re-added global CORS configuration for all API routes
-app.use(cors({ origin: [process.env.FRONTEND_URL || '*', 'http://127.0.0.1:5500', 'http://localhost:5500'] }));
+app.use(cors({ origin: '*' }));
 app.use(express.json());
 app.use(compression());
 app.use(helmet());
