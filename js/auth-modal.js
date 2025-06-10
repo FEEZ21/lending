@@ -199,25 +199,22 @@ class AuthModal {
             const data = await response.json();
 
             if (response.ok) {
-                // Сохраняем токен
-                localStorage.setItem('token', data.token);
-                localStorage.setItem('user', JSON.stringify(data.user));
+                // Сохраняем email для возможной повторной отправки письма
+                localStorage.setItem('pendingVerificationEmail', email);
                 
-                // Обновляем UI
-                this.updateAuthUI(data.user);
-                this.hide();
+                // Показываем сообщение об успешной регистрации
+                this.showMessage('Регистрация успешна! Пожалуйста, проверьте вашу почту для подтверждения email.', 'success');
                 
-                // Показываем уведомление об успешной регистрации
-                this.showNotification('Регистрация успешна!', 'success');
-            } else if (response.status === 400 && data.errors) {
-                // Обрабатываем ошибки валидации
-                this.displayErrors(data.errors);
-                this.showNotification(data.message || 'Ошибка валидации', 'error');
+                // Закрываем модальное окно через 3 секунды
+                setTimeout(() => {
+                    this.closeModal();
+                }, 3000);
             } else {
-                this.showNotification(data.message || 'Ошибка регистрации', 'error');
+                this.showMessage(data.message || 'Ошибка при регистрации', 'error');
             }
-        } catch (err) {
-            this.showNotification('Ошибка сервера', 'error');
+        } catch (error) {
+            console.error('Registration error:', error);
+            this.showMessage('Ошибка при регистрации', 'error');
         }
     }
 
@@ -507,6 +504,76 @@ class AuthModal {
         if (newCursorPosition > formatted.length) newCursorPosition = formatted.length;
 
         return { formattedValue: formatted, newCursorPosition };
+    }
+
+    async registerUser(email, password, name, phone) {
+        try {
+            const response = await fetch('https://lending-juaw.onrender.com/api/auth/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password, name, phone })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Сохраняем email для возможной повторной отправки письма
+                localStorage.setItem('pendingVerificationEmail', email);
+                
+                // Показываем сообщение об успешной регистрации
+                this.showMessage('Регистрация успешна! Пожалуйста, проверьте вашу почту для подтверждения email.', 'success');
+                
+                // Закрываем модальное окно через 3 секунды
+                setTimeout(() => {
+                    this.closeModal();
+                }, 3000);
+            } else {
+                this.showMessage(data.message || 'Ошибка при регистрации', 'error');
+            }
+        } catch (error) {
+            console.error('Registration error:', error);
+            this.showMessage('Ошибка при регистрации', 'error');
+        }
+    }
+
+    async loginUser(email, password) {
+        try {
+            const response = await fetch('https://lending-juaw.onrender.com/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                // Сохраняем токен и информацию о пользователе
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                
+                // Обновляем UI
+                this.updateUIAfterLogin(data.user);
+                
+                // Закрываем модальное окно
+                this.closeModal();
+            } else {
+                if (data.needsVerification) {
+                    // Если email не подтвержден, показываем соответствующее сообщение
+                    this.showMessage('Пожалуйста, подтвердите ваш email перед входом. Проверьте вашу почту.', 'error');
+                    // Сохраняем email для возможной повторной отправки письма
+                    localStorage.setItem('pendingVerificationEmail', email);
+                } else {
+                    this.showMessage(data.message || 'Ошибка при входе', 'error');
+                }
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            this.showMessage('Ошибка при входе', 'error');
+        }
     }
 }
 

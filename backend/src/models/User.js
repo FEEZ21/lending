@@ -26,6 +26,7 @@ const userSchema = new mongoose.Schema({
     },
     phone: {
         type: String,
+        required: true,
         trim: true
     },
     address: {
@@ -39,7 +40,12 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    verificationToken: String,
+    verificationToken: {
+        type: String
+    },
+    verificationTokenExpires: {
+        type: Date
+    },
     resetPasswordToken: String,
     resetPasswordExpires: Date,
     lastLogin: Date
@@ -49,10 +55,15 @@ const userSchema = new mongoose.Schema({
 
 // Hash password before saving
 userSchema.pre('save', async function(next) {
-    if (this.isModified('password')) {
-        this.password = await bcrypt.hash(this.password, 8);
+    if (!this.isModified('password')) return next();
+    
+    try {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
+        next();
+    } catch (error) {
+        next(error);
     }
-    next();
 });
 
 // Method to compare password
