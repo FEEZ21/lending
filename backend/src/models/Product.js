@@ -48,9 +48,9 @@ const productSchema = new mongoose.Schema({
         enum: ['active', 'inactive', 'out_of_stock'],
         default: 'active'
     },
-    image: {
-        type: String,
-        required: true
+    images: {
+        type: [String],
+        required: false
     }
 }, {
     timestamps: true
