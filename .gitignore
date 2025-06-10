@@ -44,4 +44,7 @@ ENV/
 
 # OS specific
 .DS_Store
-Thumbs.db 
+Thumbs.db
+
+# Node modules
+node_modules/ 
