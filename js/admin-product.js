@@ -33,7 +33,7 @@ function initAdminProductForm() {
 
         try {
             console.log('Attempting to fetch POST to /api/admin/categories'); // Updated URL
-            const response = await fetch('http://localhost:5000/api/admin/categories', { // Updated URL
+            const response = await fetch('https://lending-juaw.onrender.com/api/admin/categories', { // Updated URL
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`

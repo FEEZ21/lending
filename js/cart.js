@@ -18,7 +18,7 @@ async function renderCart() {
 
     try {
         // Fetch cart data from the backend API
-        const response = await fetch('http://localhost:5000/api/cart', {
+        const response = await fetch('https://lending-juaw.onrender.com/api/cart', {
             headers: {
                 'Authorization': `Bearer ${token}` // Include token for authentication
             }
@@ -113,7 +113,7 @@ async function removeFromCartBackend(productId) {
     if (!token) return; // Should not happen if renderCart check passes, but good practice
 
     try {
-        const response = await fetch(`http://localhost:5000/api/cart/items/${productId}`, {
+        const response = await fetch(`https://lending-juaw.onrender.com/api/cart/items/${productId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`
@@ -138,7 +138,7 @@ async function clearCartBackend() {
     if (!token) return; // Should not happen if renderCart check passes, but good practice
 
     try {
-        const response = await fetch('http://localhost:5000/api/cart', {
+        const response = await fetch('https://lending-juaw.onrender.com/api/cart', {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`
