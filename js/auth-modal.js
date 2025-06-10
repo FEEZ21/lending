@@ -203,18 +203,18 @@ class AuthModal {
                 localStorage.setItem('pendingVerificationEmail', email);
                 
                 // Показываем сообщение об успешной регистрации
-                this.showMessage('Регистрация успешна! Пожалуйста, проверьте вашу почту для подтверждения email.', 'success');
+                this.showNotification('Регистрация успешна! Пожалуйста, проверьте вашу почту для подтверждения email.', 'success');
                 
                 // Закрываем модальное окно через 3 секунды
                 setTimeout(() => {
                     this.closeModal();
                 }, 3000);
             } else {
-                this.showMessage(data.message || 'Ошибка при регистрации', 'error');
+                this.showNotification(data.message || 'Ошибка при регистрации', 'error');
             }
         } catch (error) {
             console.error('Registration error:', error);
-            this.showMessage('Ошибка при регистрации', 'error');
+            this.showNotification('Ошибка при регистрации', 'error');
         }
     }
 
@@ -523,18 +523,18 @@ class AuthModal {
                 localStorage.setItem('pendingVerificationEmail', email);
                 
                 // Показываем сообщение об успешной регистрации
-                this.showMessage('Регистрация успешна! Пожалуйста, проверьте вашу почту для подтверждения email.', 'success');
+                this.showNotification('Регистрация успешна! Пожалуйста, проверьте вашу почту для подтверждения email.', 'success');
                 
                 // Закрываем модальное окно через 3 секунды
                 setTimeout(() => {
                     this.closeModal();
                 }, 3000);
             } else {
-                this.showMessage(data.message || 'Ошибка при регистрации', 'error');
+                this.showNotification(data.message || 'Ошибка при регистрации', 'error');
             }
         } catch (error) {
             console.error('Registration error:', error);
-            this.showMessage('Ошибка при регистрации', 'error');
+            this.showNotification('Ошибка при регистрации', 'error');
         }
     }
 
@@ -563,16 +563,16 @@ class AuthModal {
             } else {
                 if (data.needsVerification) {
                     // Если email не подтвержден, показываем соответствующее сообщение
-                    this.showMessage('Пожалуйста, подтвердите ваш email перед входом. Проверьте вашу почту.', 'error');
+                    this.showNotification('Пожалуйста, подтвердите ваш email перед входом. Проверьте вашу почту.', 'error');
                     // Сохраняем email для возможной повторной отправки письма
                     localStorage.setItem('pendingVerificationEmail', email);
                 } else {
-                    this.showMessage(data.message || 'Ошибка при входе', 'error');
+                    this.showNotification(data.message || 'Ошибка при входе', 'error');
                 }
             }
         } catch (error) {
             console.error('Login error:', error);
-            this.showMessage('Ошибка при входе', 'error');
+            this.showNotification('Ошибка при входе', 'error');
         }
     }
 }
