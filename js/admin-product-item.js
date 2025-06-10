@@ -12,7 +12,7 @@ async function initAdminProductItemForm() {
     // Fetch categories and populate the dropdown
     async function fetchCategories() {
         try {
-            const response = await fetch('http://127.0.0.1:5000/api/categories');
+            const response = await fetch('https://lending-juaw.onrender.com/api/categories');
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
@@ -47,7 +47,7 @@ async function initAdminProductItemForm() {
         }
 
         try {
-            const response = await fetch('http://127.0.0.1:5000/api/admin/products', {
+            const response = await fetch('https://lending-juaw.onrender.com/api/admin/products', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
