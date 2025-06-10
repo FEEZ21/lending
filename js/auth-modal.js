@@ -68,16 +68,12 @@ class AuthModal {
                 registerPhoneInput.value = '+7'; // Устанавливаем +7 по умолчанию
             }
             registerPhoneInput.addEventListener('input', (e) => {
-                const cursorPosition = e.target.selectionStart;
                 const oldValue = e.target.value;
-                const formattedValue = this.formatPhoneNumber(oldValue); // Передаем старое значение для обработки
+                const oldSelectionStart = e.target.selectionStart;
+
+                const { formattedValue, newCursorPosition } = this.formatPhoneNumber(oldValue, oldSelectionStart);
 
                 e.target.value = formattedValue;
-
-                // Попытка сохранить позицию курсора
-                let newCursorPosition = cursorPosition + (formattedValue.length - oldValue.length);
-                if (newCursorPosition < 0) newCursorPosition = 0;
-                if (newCursorPosition > formattedValue.length) newCursorPosition = formattedValue.length;
                 e.target.setSelectionRange(newCursorPosition, newCursorPosition);
             });
         }
@@ -430,42 +426,87 @@ class AuthModal {
     }
 
     // Новая функция для форматирования номера телефона (строгая российская маска)
-    formatPhoneNumber(phoneNumber) {
-        let cleaned = phoneNumber.replace(/\D/g, ''); // Оставляем только цифры
+    formatPhoneNumber(phoneNumber, cursorPosition) {
+        // Вставляем маркер в позицию курсора
+        const marker = '|';
+        const phoneWithMarker = phoneNumber.slice(0, cursorPosition) + marker + phoneNumber.slice(cursorPosition);
 
-        // Убедимся, что всегда начинается с '7' для российского номера
-        if (cleaned.length === 0) {
-            return '+7'; // Дефолтное значение
+        // Очищаем строку, сохраняя маркер
+        let cleaned = '';
+        let markerPosition = -1;
+        for (let i = 0; i < phoneWithMarker.length; i++) {
+            const char = phoneWithMarker[i];
+            if (char === marker) {
+                markerPosition = cleaned.length;
+            } else if (/\d/.test(char)) {
+                cleaned += char;
+            }
         }
 
+        // Если ввод пустой или начинается не с 7, принудительно устанавливаем +7
+        if (cleaned.length === 0) {
+            return { formattedValue: '+7', newCursorPosition: 2 }; // Курсор после +7
+        }
+
+        // Обрабатываем ввод 8 или 9 в начале
         if (cleaned[0] === '8') {
-            cleaned = '7' + cleaned.substring(1); // Заменяем 8 на 7
-        } else if (cleaned[0] !== '7') {
-            cleaned = '7' + cleaned; // Добавляем 7, если начинается не с 7
+            cleaned = '7' + cleaned.substring(1);
+            if (markerPosition === 1) markerPosition = 1; // 8 становится 7, курсор остается на месте
+            else if (markerPosition > 1) markerPosition--; // Если 8 была частью (8XX), курсор сдвигается на 1 назад
+        } else if (cleaned[0] === '9') {
+            cleaned = '7' + cleaned;
+            markerPosition++; // Курсор сдвигается на 1 вперед из-за добавленной 7
+        }
+
+        // Принудительно начинаем с 7, если пользователь ввел что-то другое
+        if (cleaned[0] !== '7') {
+            cleaned = '7' + cleaned;
+            markerPosition++; // Курсор сдвигается на 1 вперед из-за добавленной 7
         }
 
         // Ограничиваем до 11 цифр (7 + 10 цифр)
         if (cleaned.length > 11) {
             cleaned = cleaned.substring(0, 11);
+            if (markerPosition > 11) markerPosition = 11;
         }
 
         let formatted = '+7';
+        let currentDigitCount = 0;
+        let newCursorPosition = 2; // Начинаем после +7
 
-        // Применяем маску: (XXX) XXX-XX-XX
-        if (cleaned.length > 1) {
-            formatted += ' (' + cleaned.substring(1, Math.min(4, cleaned.length));
-        }
-        if (cleaned.length >= 4) {
-            formatted += ') ' + cleaned.substring(4, Math.min(7, cleaned.length));
-        }
-        if (cleaned.length >= 7) {
-            formatted += '-' + cleaned.substring(7, Math.min(9, cleaned.length));
-        }
-        if (cleaned.length >= 9) {
-            formatted += '-' + cleaned.substring(9, Math.min(11, cleaned.length));
+        // Применяем маску: +7 (XXX) XXX-XX-XX
+        for (let i = 1; i < cleaned.length; i++) {
+            const digit = cleaned[i];
+            currentDigitCount++;
+
+            if (currentDigitCount === 1) {
+                formatted += ' (' + digit;
+                if (markerPosition === currentDigitCount) newCursorPosition = formatted.length;
+            } else if (currentDigitCount === 4) {
+                formatted += ') ' + digit;
+                if (markerPosition === currentDigitCount) newCursorPosition = formatted.length;
+            } else if (currentDigitCount === 7) {
+                formatted += '-' + digit;
+                if (markerPosition === currentDigitCount) newCursorPosition = formatted.length;
+            } else if (currentDigitCount === 9) {
+                formatted += '-' + digit;
+                if (markerPosition === currentDigitCount) newCursorPosition = formatted.length;
+            } else {
+                formatted += digit;
+                if (markerPosition === currentDigitCount) newCursorPosition = formatted.length;
+            }
         }
 
-        return formatted;
+        // Если маркер был в конце, устанавливаем курсор в конец отформатированной строки
+        if (markerPosition === cleaned.length) {
+            newCursorPosition = formatted.length;
+        }
+
+        // Убедимся, что курсор не выходит за пределы отформатированной строки
+        if (newCursorPosition < 2) newCursorPosition = 2;
+        if (newCursorPosition > formatted.length) newCursorPosition = formatted.length;
+
+        return { formattedValue: formatted, newCursorPosition };
     }
 }
 
