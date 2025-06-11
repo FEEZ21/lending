@@ -10,7 +10,7 @@ const app = express();
 
 // Middleware
 // Re-added global CORS configuration for all API routes
-app.use(cors({ origin: '*' }));
+app.use(cors({ origin: 'https://lending-frontend-s132.onrender.com' }));
 app.use(express.json());
 app.use(compression());
 app.use(helmet());
