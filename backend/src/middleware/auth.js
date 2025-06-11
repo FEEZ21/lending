@@ -3,45 +3,30 @@ const User = require('../models/User');
 
 const auth = async (req, res, next) => {
     try {
-        const token = req.header('Authorization')?.replace('Bearer ', '');
-        
+        const token = req.header('Authorization').replace('Bearer ', '');
         if (!token) {
-            console.log('Auth middleware: No token provided.');
-            throw new Error();
+            return res.status(401).json({ message: 'No token, authorization denied' });
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET || 'your-secret-key');
-        const user = await User.findOne({ _id: decoded.userId });
+        const user = await User.findById(decoded.userId);
 
         if (!user) {
-            console.log('Auth middleware: User not found for decoded ID.');
-            throw new Error();
+            return res.status(404).json({ message: 'User not found' });
         }
 
-        req.token = token;
         req.user = user;
-        console.log(`Auth middleware: User authenticated. User ID: ${user._id}, Role: ${user.role}`);
         next();
-    } catch (err) {
-        console.error('Auth middleware error:', err.message);
-        res.status(401).json({ message: 'Please authenticate' });
+    } catch (error) {
+        res.status(401).json({ message: 'Token is not valid' });
     }
 };
 
-const adminAuth = async (req, res, next) => {
-    try {
-        await auth(req, res, () => {
-            console.log(`AdminAuth middleware: Checking user role. User ID: ${req.user?._id}, Role: ${req.user?.role}`);
-            if (req.user.role !== 'admin') {
-                console.log(`AdminAuth middleware: Access denied. Role is not 'admin'.`);
-                return res.status(403).json({ message: 'Access denied' });
-            }
-            console.log(`AdminAuth middleware: Access granted. Role is 'admin'.`);
-            next();
-        });
-    } catch (err) {
-        console.error('AdminAuth middleware error:', err.message);
-        res.status(401).json({ message: 'Please authenticate' });
+const adminAuth = (req, res, next) => {
+    if (req.user && req.user.role === 'admin') {
+        next();
+    } else {
+        res.status(403).json({ message: 'Access denied: Admin role required' });
     }
 };
 

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Категория</title>
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo">
+                <img src="../images/logo.png" alt="logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#catalog">Каталог продукции</a></li>
+                <li><a href="index.html#reviews">Обзоры</a></li>
+                <li><a href="index.html#about">О нас</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="auth-btn login-btn">Войти</button>
+                <button class="auth-btn register-btn">Регистрация</button>
+                <button class="auth-btn logout-button" style="display: none;">Выйти</button>
+                <a href="cart.html" class="auth-btn cart-btn">Корзина</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="category-products">
+            <h1 id="category-title">Категория</h1>
+            <div class="products-grid">
+                <!-- Products will be loaded dynamically -->
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 Все права защищены</p>
+    </footer>
+
+    <script src="../js/general/cart-utils.js"></script>
+    <script src="../js/products/category.js"></script>
+    <script src="../js/general/cart.js"></script>
+    <script src="../js/general/auth-modal.js"></script>
+</body>
+</html> 

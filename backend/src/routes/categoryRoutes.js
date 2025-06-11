@@ -29,15 +29,11 @@ router.post(
     // Removed adminMiddleware.canManageProducts as adminAuth already handles this
     (req, res, next) => {
         upload.single('image')(req, res, function (err) {
-            console.log('Inside upload.single callback.');
-            console.log('req.file object:', req.file);
             if (err instanceof multer.MulterError) {
                 // A Multer error occurred when uploading.
-                console.error('Multer Error:', err);
                 return res.status(400).json({ message: err.message });
             } else if (err) {
                 // An unknown error occurred when uploading.
-                console.error('Unknown Upload Error:', err);
                 return res.status(500).json({ message: err.message });
             }
             // Everything went fine.
@@ -46,51 +42,30 @@ router.post(
     },
     async (req, res) => {
         const { name } = req.body;
-        const image = req.file ? `images/${req.file.filename}` : null;
 
-        // Basic validation
-        if (!name || !image) {
-            console.log('Validation failed: Missing name or image');
-            // If there was a file uploaded before this validation failed, clean it up
-            if (req.file) {
-                 fs.unlink(req.file.path, (err) => {
-                     if (err) console.error('Error deleting partially uploaded image:', err);
-                 });
-            }
-            return res.status(400).json({ message: 'Please enter category name and upload an image' });
+        if (!name || !req.file) {
+            return res.status(400).json({ message: 'Name and image are required.' });
         }
 
         try {
-            console.log(`Attempting to find category with name: ${name}`);
             const categoryExists = await Category.findOne({ name });
-            console.log('Category find result:', categoryExists);
 
             if (categoryExists) {
-                console.log(`Category with name ${name} already exists`);
-                if (req.file) {
-                    fs.unlink(req.file.path, (err) => {
-                        if (err) console.error('Error deleting duplicate category image:', err);
-                    });
-                }
-                return res.status(400).json({ message: 'Category with this name already exists' });
+                fs.unlinkSync(req.file.path);
+                return res.status(400).json({ message: 'Category already exists.' });
             }
 
-            console.log('Creating new Category instance');
+            const imagePath = req.file.path.replace(/\\/g, '/'); // Replace backslashes for URL compatibility
+
             const category = new Category({
                 name,
-                image
+                image: imagePath // Store the path to the image
             });
-            console.log('New Category instance created:', category);
 
-            console.log('Attempting to save new category');
             const createdCategory = await category.save();
-            console.log('Category saved successfully:', createdCategory);
 
-            console.log('Sending 201 response');
             res.status(201).json(createdCategory);
-
-        } catch (error) {
-            console.error('Error adding category:', error);
+        } catch (err) {
             res.status(500).json({ message: 'Server error' });
         }
     }

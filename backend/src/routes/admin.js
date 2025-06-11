@@ -82,40 +82,27 @@ router.post('/products',
         body('category').notEmpty(),
     ],
     async (req, res) => {
-        console.log('Received request to add product.');
-        console.log('req.file:', req.file);
-        console.log('req.body:', req.body);
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            if (req.file) {
-                await fs.unlink(req.file.path).catch(err => console.error("Error deleting temp file:", err));
-            }
-            return res.status(400).json({ errors: errors.array() });
+        const { name, description, price, category, stock } = req.body;
+
+        if (!req.file) {
+            return res.status(400).json({ message: 'Product image is required.' });
         }
 
         try {
-            const { name, description, price, category } = req.body;
-            const imagePath = req.file ? `images/${req.file.filename}` : null;
-
-            if (!imagePath) {
-                return res.status(400).json({ message: 'Изображение обязательно.' });
-            }
-
-            const product = new Product({
-                name, 
+            const newProduct = new Product({
+                name,
                 description,
                 price,
+                image: req.file.path.replace(/\\/g, '/'), // Store the path to the image
                 category,
-                image: imagePath,
+                stock
             });
 
-            await product.save();
-            res.status(201).json({ message: 'Товар успешно добавлен!', product });
-        } catch (err) {
-            if (req.file) {
-                await fs.unlink(req.file.path).catch(err => console.error("Error deleting temp file on save error:", err));
-            }
-            res.status(400).json({ message: err.message });
+            const savedProduct = await newProduct.save();
+            res.status(201).json(savedProduct);
+        } catch (error) {
+            console.error('Error adding product:', error);
+            res.status(500).json({ message: 'Server error' });
         }
     }
 );

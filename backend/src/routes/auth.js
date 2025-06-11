@@ -5,7 +5,6 @@ const crypto = require('crypto');
 const User = require('../models/User');
 const { body, validationResult } = require('express-validator');
 const { auth } = require('../middleware/auth');
-const nodemailer = require('nodemailer');
 
 // Регистрация пользователя
 router.post('/register', [
@@ -50,26 +49,6 @@ router.post('/register', [
 
         await user.save();
 
-        // TODO: Отправить email с токеном верификации
-        const transporter = nodemailer.createTransport({
-            host: "smtp.yandex.ru",
-            port: 465,
-            secure: true, 
-            auth: {
-                user: process.env.EMAIL_USER,
-                pass: process.env.EMAIL_PASS
-            }
-        });
-
-        const verificationLink = `https://lending-frontend-s132.onrender.com/verify-email.html?token=${verificationToken}`;
-
-        await transporter.sendMail({
-            from: process.env.EMAIL_USER,
-            to: user.email,
-            subject: 'Подтверждение регистрации',
-            html: `<p>Пожалуйста, перейдите по этой ссылке, чтобы подтвердить свою электронную почту: <a href="${verificationLink}">${verificationLink}</a></p>`
-        });
-
         // Создаем JWT токен
         const token = jwt.sign(
             { userId: user._id },
@@ -82,6 +61,7 @@ router.post('/register', [
             user: user.getPublicProfile()
         });
     } catch (err) {
+        console.error('Registration error:', err);
         res.status(500).json({ message: err.message });
     }
 });
