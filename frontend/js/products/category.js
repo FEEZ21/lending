@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (addToCartButton) {
                     addToCartButton.addEventListener('click', (event) => {
                         event.preventDefault(); // Prevent default link behavior if inside <a>
-                        addToCart(product._id, 1); // Assuming addToCart function is available globally or imported
+                        addToCart(product); // Pass the whole product object
                     });
                 }
 
