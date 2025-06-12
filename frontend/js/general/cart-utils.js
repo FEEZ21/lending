@@ -37,6 +37,7 @@ const CartUtils = {
                 });
             }
             
+            console.log('Cart array before saving:', cart); // DEBUG: Log cart array before saving
             this.saveCart(cart);
             console.log('Product added to cart object.'); // DEBUG: Product added
             
