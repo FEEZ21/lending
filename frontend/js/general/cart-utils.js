@@ -22,7 +22,7 @@ const CartUtils = {
     addToCart(product) {
         try {
             const cart = this.getCart();
-            const existingItem = cart.find(item => item.id === product.id);
+            const existingItem = cart.find(item => item._id === product._id);
             
             if (existingItem) {
                 existingItem.count += 1;
@@ -50,7 +50,7 @@ const CartUtils = {
     removeFromCart(productId) {
         try {
             const cart = this.getCart();
-            const updatedCart = cart.filter(item => item.id !== productId);
+            const updatedCart = cart.filter(item => item._id !== productId);
             this.saveCart(updatedCart);
             
             if (typeof renderCart === 'function') {
