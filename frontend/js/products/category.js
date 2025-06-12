@@ -88,6 +88,24 @@ document.addEventListener('DOMContentLoaded', async () => {
                     h3Element.textContent = product.name;
                 }
 
+                const priceElement = cardElement.querySelector('.product-price');
+                if (priceElement) {
+                    priceElement.textContent = `${product.price} ₽`; // Assuming product has a price field
+                }
+
+                const detailsButton = cardElement.querySelector('.details-btn');
+                if (detailsButton) {
+                    detailsButton.href = `product.html?id=${product._id}`;
+                }
+
+                const addToCartButton = cardElement.querySelector('.add-to-cart-btn');
+                if (addToCartButton) {
+                    addToCartButton.addEventListener('click', (event) => {
+                        event.preventDefault(); // Prevent default link behavior if inside <a>
+                        addToCart(product._id, 1); // Assuming addToCart function is available globally or imported
+                    });
+                }
+
                 productsGrid.appendChild(cardElement);
             }
         });
