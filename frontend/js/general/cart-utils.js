@@ -13,44 +13,51 @@ const CartUtils = {
     },
 
     saveCart(cart) {
+        // This function is no longer directly used for saving to localStorage from addToCart
+        // but might be used elsewhere. Keep it as is.
         try {
-            console.log('Saving cart to localStorage:', cart); // DEBUG: Log cart before saving
             localStorage.setItem('cart', JSON.stringify(cart));
-            console.log('Cart saved to localStorage.'); // DEBUG: Confirmation
         } catch (error) {
             console.error('Error saving cart to localStorage:', error);
             throw new Error('Failed to save cart');
         }
     },
 
-    addToCart(product) {
+    async addToCart(product) { // Made async to await fetch
         try {
-            const cart = this.getCart();
-            const existingItem = cart.find(item => item._id === product._id);
-            
-            if (existingItem) {
-                existingItem.count += 1;
-            } else {
-                cart.push({
-                    ...product,
-                    count: 1
-                });
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Пожалуйста, войдите в систему, чтобы добавить товар в корзину.');
+                return;
             }
-            
-            console.log('Cart array before saving:', cart); // DEBUG: Log cart array before saving
-            this.saveCart(cart);
-            console.log('Product added to cart object.'); // DEBUG: Product added
-            
-            // Notify about cart update
+
+            const response = await fetch('https://lending-juaw.onrender.com/api/cart/items', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    productId: product._id,
+                    quantity: 1 // Always add 1 for now
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to add item to cart');
+            }
+
+            alert('Товар добавлен в корзину!');
+            // Notify about cart update (this will trigger renderCart in cart.js)
             if (typeof renderCart === 'function') {
-                console.log('Calling renderCart function.'); // DEBUG: Calling renderCart
                 renderCart();
             } else {
                 console.warn('renderCart function not available');
             }
         } catch (error) {
             console.error('Error adding item to cart:', error);
-            throw new Error('Failed to add item to cart');
+            alert(`Ошибка при добавлении товара в корзину: ${error.message}`);
         }
     },
 
