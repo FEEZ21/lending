@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Render products
         products.forEach(product => {
+            console.log('Processing product:', product.name); // Log 1
             const tempDiv = document.createElement('div');
             tempDiv.innerHTML = cardTemplate.trim();
             const cardElement = tempDiv.firstChild;
@@ -100,8 +101,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                 const addToCartButton = cardElement.querySelector('.add-to-cart-btn');
                 if (addToCartButton) {
+                    console.log('Add to cart button found for product:', product.name); // Log 2
                     addToCartButton.addEventListener('click', (event) => {
                         event.preventDefault(); // Prevent default link behavior if inside <a>
+                        console.log('Add to cart button clicked for product:', product.name); // Log 3
+                        console.log('Product object passed to addToCart:', product); // Log 4
                         addToCart(product); // Pass the whole product object
                     });
                 }
