@@ -3,7 +3,9 @@ const CartUtils = {
     getCart() {
         try {
             const cart = localStorage.getItem('cart');
-            return cart ? JSON.parse(cart) : [];
+            const parsedCart = cart ? JSON.parse(cart) : [];
+            console.log('Cart fetched from localStorage:', parsedCart); // DEBUG: Log fetched cart
+            return parsedCart;
         } catch (error) {
             console.error('Error getting cart from localStorage:', error);
             return [];
@@ -12,7 +14,9 @@ const CartUtils = {
 
     saveCart(cart) {
         try {
+            console.log('Saving cart to localStorage:', cart); // DEBUG: Log cart before saving
             localStorage.setItem('cart', JSON.stringify(cart));
+            console.log('Cart saved to localStorage.'); // DEBUG: Confirmation
         } catch (error) {
             console.error('Error saving cart to localStorage:', error);
             throw new Error('Failed to save cart');
@@ -34,9 +38,11 @@ const CartUtils = {
             }
             
             this.saveCart(cart);
+            console.log('Product added to cart object.'); // DEBUG: Product added
             
             // Notify about cart update
             if (typeof renderCart === 'function') {
+                console.log('Calling renderCart function.'); // DEBUG: Calling renderCart
                 renderCart();
             } else {
                 console.warn('renderCart function not available');
