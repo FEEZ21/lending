@@ -160,9 +160,9 @@ async function renderCategories() {
             if (priceElement) {
                 priceElement.remove(); // Remove price element
             }
-            const descriptionElement = cardElement.querySelector('.product-description');
-            if (descriptionElement) {
-                descriptionElement.remove(); // Remove description element
+            const productActionsElement = cardElement.querySelector('.product-actions');
+            if (productActionsElement) {
+                productActionsElement.remove(); // Remove product actions (buttons) element
             }
 
             mainContentGrid.appendChild(cardElement);
