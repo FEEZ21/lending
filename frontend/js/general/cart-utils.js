@@ -4,17 +4,13 @@ const CartUtils = {
         try {
             const cart = localStorage.getItem('cart');
             const parsedCart = cart ? JSON.parse(cart) : [];
-            console.log('Cart fetched from localStorage:', parsedCart); // DEBUG: Log fetched cart
             return parsedCart;
         } catch (error) {
-            console.error('Error getting cart from localStorage:', error);
             return [];
         }
     },
 
     saveCart(cart) {
-        // This function is no longer directly used for saving to localStorage from addToCart
-        // but might be used elsewhere. Keep it as is.
         try {
             localStorage.setItem('cart', JSON.stringify(cart));
         } catch (error) {
