@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function initAdminProductItemForm() {
     const form = document.getElementById('add-product-item-form');
-    const messageDiv = document.getElementById('add-product-message');
+    const messageDiv = document.getElementById('add-product-item-message');
     const categorySelect = document.getElementById('product-category');
 
     // Fetch categories and populate the dropdown

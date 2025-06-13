@@ -23,6 +23,7 @@ const auth = async (req, res, next) => {
 };
 
 const adminAuth = (req, res, next) => {
+    console.log('Checking admin access. User role:', req.user ? req.user.role : 'User object not found');
     if (req.user && req.user.role === 'admin') {
         next();
     } else {
