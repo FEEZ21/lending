@@ -77,10 +77,13 @@
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 700;
-    color: #555;
+    position: relative;
+    padding-left: 30px; /* Отступ для кастомного чекбокса */
+    cursor: pointer;
+    display: inline-block; /* Для правильного позиционирования pseudo-элемента */
+    vertical-align: middle; /* Выравнивание с текстом */
+    font-weight: normal; /* Сбросим жирный шрифт, если он был для label */
+    margin-bottom: 0; /* Убираем нижний отступ, чтобы чекбоксы были на одной линии */
 }
 
 /* Стили для полей ввода */
@@ -116,9 +119,49 @@
 
 /* Стили для чекбокса */
 .form-group input[type="checkbox"] {
-    margin-right: 10px;
-    transform: scale(1.2); /* Увеличим чекбокс */
-    vertical-align: middle;
+    /* Скрываем стандартный чекбокс */
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none; /* Гарантируем, что клики проходят сквозь */
+}
+
+.form-group label::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px; /* Размер кастомного чекбокса */
+    height: 20px;
+    border: 2px solid #007bff; /* Цвет рамки */
+    border-radius: 4px;
+    background-color: #fff;
+    transition: all 0.2s ease;
+}
+
+.form-group input[type="checkbox"]:checked + label::before {
+    background-color: #007bff; /* Цвет фона при чеке */
+    border-color: #007bff;
+}
+
+.form-group label::after {
+    content: '';
+    position: absolute;
+    left: 7px; /* Позиция галочки */
+    top: 50%;
+    width: 6px;
+    height: 12px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: translateY(-50%) rotate(45deg); /* Поворот для галочки */
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.form-group input[type="checkbox"]:checked + label::after {
+    opacity: 1; /* Показать галочку при чеке */
 }
 
 /* Стили для кнопки отправки формы */

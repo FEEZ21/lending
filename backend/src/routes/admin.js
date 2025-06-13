@@ -6,6 +6,7 @@ const fs = require('fs').promises;
 const Product = require('../models/Product');
 const adminMiddleware = require('../middleware/admin');
 const { body, validationResult } = require('express-validator');
+const auth = require('../middleware/auth');
 
 // Настройка multer для загрузки изображений
 const storage = multer.diskStorage({
@@ -73,6 +74,7 @@ router.get('/products', adminMiddleware.canManageProducts, async (req, res) => {
 
 // Создать новый продукт
 router.post('/products', 
+    auth,
     adminMiddleware.canManageProducts,
     upload.single('image'),
     [

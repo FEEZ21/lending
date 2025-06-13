@@ -31,10 +31,6 @@ body {
     align-items: center;
 }
 
-.logo img {
-    height: 50px;
-}
-
 .nav-links {
     display: flex;
     list-style: none;
