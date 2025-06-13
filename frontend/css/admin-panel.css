@@ -1,0 +1,111 @@
+/* Стили для админ-панели */
+.admin-panel {
+    padding: 20px;
+}
+
+/* Стили для кнопок переключения вкладок */
+.admin-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.admin-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.admin-btn.active {
+    background-color: #5cb85c;
+    color: white;
+}
+
+.admin-section {
+    margin-top: 20px;
+}
+
+/* Стили для контейнера форм */
+.admin-add-product-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.admin-add-product-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Стили для групп формы */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+/* Стили для полей ввода */
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Стили для чекбокса */
+.form-group input[type="checkbox"] {
+    margin-right: 8px;
+}
+
+/* Стили для кнопки отправки формы */
+button[type="submit"] {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #4cae4c;
+}
+
+/* Стили для сообщений */
+#add-product-message,
+#add-product-item-message {
+    margin-top: 15px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.message-success {
+    color: green;
+}
+
+.message-error {
+    color: red;
+} 

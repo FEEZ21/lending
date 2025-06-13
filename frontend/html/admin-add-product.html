@@ -1,95 +1,112 @@
-<!-- html/admin-add-product.html -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ-панель</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/admin-panel.css">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <a href="index.html" class="logo">
+                <img src="../images/logo.png" alt="logo">
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#catalog">Каталог продукции</a></li>
+                <li><a href="index.html#reviews">Обзоры</a></li>
+                <li><a href="index.html#about">О нас</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <button class="auth-btn login-btn">Войти</button>
+                <button class="auth-btn register-btn">Регистрация</button>
+                <button class="auth-btn logout-button" style="display: none;">Выйти</button>
+                <button id="admin-add-product-btn" style="display: none;" class="auth-btn">Добавить новую категорию</button>
+                <a href="cart.html" class="auth-btn cart-btn">Корзина</a>
+            </div>
+        </nav>
+    </header>
 
-<div class="admin-add-product-container">
-    <h2>Добавить новую категорию</h2>
-    <form id="add-product-form" enctype="multipart/form-data">
-        
-        
-        <div class="form-group">
-            <label for="product-category">Категория:</label>
-            <!-- Это поле на самом деле для НАЗВАНИЯ категории в данном случае -->
-            <!-- Возможно, стоит переименовать id и name для ясности -->
-            <input type="text" id="category-name" name="name" required> 
+    <main class="container">
+        <div class="admin-panel">
+            <div class="admin-buttons">
+                <button id="add-category-btn" class="admin-btn active">Добавить категорию</button>
+                <button id="add-product-item-btn" class="admin-btn">Добавить товар</button>
+            </div>
+
+            <div id="add-category-section" class="admin-section">
+                <div class="admin-add-product-container">
+                    <h2>Добавить новую категорию</h2>
+                    <form id="add-product-form" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="product-category">Категория:</label>
+                            <input type="text" id="category-name" name="name" required> 
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="category-image">Изображение (одно):</label>
+                            <input type="file" id="category-image" name="image" accept="image/*">
+                        </div>
+                        <button type="submit">Добавить категорию</button>
+                    </form>
+                    <p id="add-product-message"></p>
+                </div>
+            </div>
+
+            <div id="add-product-item-section" class="admin-section" style="display: none;">
+                <div class="admin-add-product-container">
+                    <h2>Добавить новый товар</h2>
+                    <form id="add-product-item-form" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="product-name">Название товара:</label>
+                            <input type="text" id="product-name" name="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="product-description">Описание:</label>
+                            <textarea id="product-description" name="description" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="product-price">Цена:</label>
+                            <input type="number" id="product-price" name="price" min="0" step="0.01" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="product-category">Категория:</label>
+                            <select id="product-category" name="category" required>
+                                <option value="">Выберите категорию</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="product-images">Изображения:</label>
+                            <input type="file" id="product-images" name="images" accept="image/*" multiple>
+                        </div>
+
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" name="featured" id="product-featured">
+                                Отметить как популярный товар
+                            </label>
+                        </div>
+
+                        <button type="submit">Добавить товар</button>
+                    </form>
+                    <p id="add-product-item-message"></p>
+                </div>
+            </div>
         </div>
-        
-        <div class="form-group">
-            <label for="category-image">Изображение (одно):</label>
-            <input type="file" id="category-image" name="image" accept="image/*">
-        </div>
-        <button type="submit">Добавить категорию</button>
-    </form>
-    <p id="add-product-message"></p>
-</div>
+    </main>
 
-<style>
-/* Basic styling for the form */
-.admin-add-product-container {
-    max-width: 600px;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-}
+    <footer class="footer">
+        <p>&copy; 2024 Все права защищены</p>
+    </footer>
 
-.admin-add-product-container h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-}
-
-.form-group input[type="text"],
-.form-group input[type="number"],
-.form-group textarea {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-sizing: border-box; /* Include padding and border in element's total width and height */
-}
-
-.form-group textarea {
-    resize: vertical;
-    min-height: 100px;
-}
-
-button[type="submit"] {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #5cb85c;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-button[type="submit"]:hover {
-    background-color: #4cae4c;
-}
-
-#add-product-message {
-    margin-top: 15px;
-    text-align: center;
-    font-weight: bold;
-}
-
-.message-success {
-    color: green;
-}
-
-.message-error {
-    color: red;
-}
-</style> 
+    <script src="../js/general/auth-modal.js"></script>
+    <script src="../js/products/admin-product.js"></script>
+    <script src="../js/products/admin-product-item.js"></script>
+    <script src="../js/products/admin-panel.js"></script>
+</body>
+</html> 

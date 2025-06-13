@@ -40,82 +40,110 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
-    try {
-        // Fetch products for this category using the category name from fetched data
-        // (Assuming backend can filter by category name string, otherwise need to adjust backend for ID filtering)
-        const response = await fetch(`https://lending-juaw.onrender.com/api/products?category=${encodeURIComponent(categoryName)}`);
-        if (!response.ok) {
-            throw new Error('Failed to fetch products');
-        }
-        
-        const products = await response.json();
-        const productsGrid = document.querySelector('.products-grid');
-        productsGrid.innerHTML = ''; // Clear the grid
-        
-        if (products.length === 0) {
-            productsGrid.innerHTML = '<p>В этой категории пока нет товаров.</p>';
-            return;
-        }
+    // Function to load and render products
+    async function loadProducts(featured = null, sortBy = null) {
+        try {
+            let url = `https://lending-juaw.onrender.com/api/products?category=${encodeURIComponent(categoryName)}`;
+            
+            if (featured !== null) {
+                url += `&featured=${featured}`;
+            }
+            
+            if (sortBy) {
+                url += `&sortBy=${sortBy}&order=desc`;
+            }
 
-        // Render products
-        products.forEach(product => {
-            console.log('Processing product:', product.name); // Log 1
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = cardTemplate.trim();
-            const cardElement = tempDiv.firstChild;
+            const response = await fetch(url);
+            if (!response.ok) {
+                throw new Error('Failed to fetch products');
+            }
+            
+            const products = await response.json();
+            const productsGrid = document.querySelector('.products-grid');
+            productsGrid.innerHTML = ''; // Clear the grid
+            
+            if (products.length === 0) {
+                productsGrid.innerHTML = '<p>В этой категории пока нет товаров.</p>';
+                return;
+            }
 
-            if (cardElement) {
-                // Update the link href to point to product details
-                const linkElement = cardElement.querySelector('.product-link');
-                if (linkElement) {
-                    linkElement.href = `product.html?id=${product._id}`;
-                }
+            // Render products
+            products.forEach(product => {
+                const tempDiv = document.createElement('div');
+                tempDiv.innerHTML = cardTemplate.trim();
+                const cardElement = tempDiv.firstChild;
 
-                const imgElement = cardElement.querySelector('img');
-                if (imgElement) {
-                    let imageUrl = product.images && product.images.length > 0 ? product.images[0] : null; // Use product.images array
-
-                    if (!imageUrl) {
-                        imageUrl = '../images/placeholder.png';
+                if (cardElement) {
+                    // Update the link href to point to product details
+                    const linkElement = cardElement.querySelector('.product-link');
+                    if (linkElement) {
+                        linkElement.href = `product.html?id=${product._id}`;
                     }
 
-                    // Изображения теперь обслуживаются фронтендом статически, убираем префикс бэкенда
-                    imgElement.src = imageUrl;
-                    imgElement.alt = product.name;
-                }
+                    const imgElement = cardElement.querySelector('img');
+                    if (imgElement) {
+                        let imageUrl = product.images && product.images.length > 0 ? product.images[0] : null;
 
-                const h3Element = cardElement.querySelector('h3');
-                if (h3Element) {
-                    h3Element.textContent = product.name;
-                }
+                        if (!imageUrl) {
+                            imageUrl = '../images/placeholder.png';
+                        }
 
-                const priceElement = cardElement.querySelector('.product-price');
-                if (priceElement) {
-                    priceElement.textContent = `${product.price} ₽`; // Assuming product has a price field
-                }
+                        imgElement.src = imageUrl;
+                        imgElement.alt = product.name;
+                    }
 
-                const detailsButton = cardElement.querySelector('.details-btn');
-                if (detailsButton) {
-                    detailsButton.href = `product.html?id=${product._id}`;
-                }
+                    const h3Element = cardElement.querySelector('h3');
+                    if (h3Element) {
+                        h3Element.textContent = product.name;
+                    }
 
-                const addToCartButton = cardElement.querySelector('.add-to-cart-btn');
-                if (addToCartButton) {
-                    console.log('Add to cart button found for product:', product.name); // Log 2
-                    addToCartButton.addEventListener('click', (event) => {
-                        event.preventDefault(); // Prevent default link behavior if inside <a>
-                        console.log('Add to cart button clicked for product:', product.name); // Log 3
-                        console.log('Product object passed to addToCart:', product); // Log 4
-                        addToCart(product); // Pass the whole product object
-                    });
-                }
+                    const priceElement = cardElement.querySelector('.product-price');
+                    if (priceElement) {
+                        priceElement.textContent = `${product.price} ₽`;
+                    }
 
-                productsGrid.appendChild(cardElement);
+                    const detailsButton = cardElement.querySelector('.details-btn');
+                    if (detailsButton) {
+                        detailsButton.href = `product.html?id=${product._id}`;
+                    }
+
+                    const addToCartButton = cardElement.querySelector('.add-to-cart-btn');
+                    if (addToCartButton) {
+                        addToCartButton.addEventListener('click', (event) => {
+                            event.preventDefault();
+                            addToCart(product);
+                        });
+                    }
+
+                    productsGrid.appendChild(cardElement);
+                }
+            });
+        } catch (error) {
+            console.error('Error loading products:', error);
+            document.querySelector('.products-grid').innerHTML = '<p>Ошибка при загрузке товаров</p>';
+        }
+    }
+
+    // Set up filter buttons
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            button.classList.add('active');
+
+            // Handle different filter cases
+            if (button.textContent === 'Все') {
+                loadProducts();
+            } else if (button.textContent === 'Популярное') {
+                loadProducts(true); // Show featured products
+            } else if (button.textContent === 'Новинки') {
+                loadProducts(null, 'createdAt'); // Sort by creation date
             }
         });
+    });
 
-    } catch (error) {
-        console.error('Error loading products:', error);
-        document.querySelector('.products-grid').innerHTML = '<p>Ошибка при загрузке товаров</p>';
-    }
+    // Load all products initially
+    loadProducts();
 }); 
