@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Function to load and render products
-    async function loadProducts(featured = null, sortBy = null) {
+    async function loadProducts(featured = null, sortBy = null, newArrival = null) {
         try {
             let url = `https://lending-juaw.onrender.com/api/products?category=${encodeURIComponent(categoryName)}`;
             
@@ -49,6 +49,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 url += `&featured=${featured}`;
             }
             
+            if (newArrival !== null) {
+                url += `&newArrival=${newArrival}`;
+            }
+
             if (sortBy) {
                 url += `&sortBy=${sortBy}&order=desc`;
             }
@@ -139,7 +143,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             } else if (button.textContent === 'Популярное') {
                 loadProducts(true); // Show featured products
             } else if (button.textContent === 'Новинки') {
-                loadProducts(null, 'createdAt'); // Sort by creation date
+                loadProducts(null, null, true); // Filter by newArrival
             }
         });
     });

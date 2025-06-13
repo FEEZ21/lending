@@ -18,6 +18,11 @@ router.get('/', async (req, res) => {
             query.featured = true;
         }
 
+        // Filter by new arrivals
+        if (req.query.newArrival === 'true') {
+            query.newArrival = true;
+        }
+
         // Sorting logic for "New Arrivals"
         if (req.query.sortBy) {
             sort[req.query.sortBy] = req.query.order === 'desc' ? -1 : 1;

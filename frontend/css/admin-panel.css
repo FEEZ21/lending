@@ -1,111 +1,165 @@
 /* Стили для админ-панели */
 .admin-panel {
-    padding: 20px;
+    max-width: 1200px;
+    margin: calc(80px + 2rem) auto 2rem auto;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
 /* Стили для кнопок переключения вкладок */
 .admin-buttons {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+    justify-content: flex-start;
+    gap: 15px;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
 }
 
 .admin-btn {
     padding: 10px 20px;
     border: none;
-    border-radius: 4px;
-    background-color: #f0f0f0;
+    border-radius: 5px 5px 0 0; /* Закругленные углы сверху */
+    background-color: #e9ecef;
+    color: #495057;
+    font-size: 1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 -2px 0 rgba(0,0,0,0.05); /* Внутренняя тень для эффекта вкладки */
+}
+
+.admin-btn:hover {
+    background-color: #dee2e6;
+    color: #212529;
 }
 
 .admin-btn.active {
-    background-color: #5cb85c;
+    background-color: #007bff; /* Основной цвет из main.css */
     color: white;
+    border-color: #007bff;
+    box-shadow: none; /* Убираем внутреннюю тень, когда активна */
+    transform: translateY(2px); /* Небольшой подъем для активной вкладки */
 }
 
 .admin-section {
-    margin-top: 20px;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-top: none;
+    border-radius: 0 0 8px 8px; /* Закругленные углы снизу */
+    padding: 2rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 /* Стили для контейнера форм */
 .admin-add-product-container {
-    max-width: 600px;
-    margin: 20px auto;
+    max-width: 500px;
+    margin: 0 auto; /* Убираем верхний и нижний margin, так как они уже есть у .admin-panel */
     padding: 20px;
-    border: 1px solid #ccc;
+    background-color: #fff; /* Теперь фон внутри секции */
+    border: none; /* Убираем рамку, так как она уже есть у .admin-section */
     border-radius: 8px;
-    background-color: #f9f9f9;
+    box-shadow: none; /* Убираем тень, так как она уже есть у .admin-section */
 }
 
 .admin-add-product-container h2 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    color: #333;
+    font-size: 1.8rem;
 }
 
 /* Стили для групп формы */
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
+    margin-bottom: 8px;
+    font-weight: 700;
+    color: #555;
 }
 
 /* Стили для полей ввода */
 .form-group input[type="text"],
 .form-group input[type="number"],
 .form-group textarea,
-.form-group select {
+.form-group select,
+.form-group input[type="file"] {
     width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
+    padding: 10px 12px;
+    border: 1px solid #ced4da;
     border-radius: 4px;
     box-sizing: border-box;
+    font-size: 1rem;
+    color: #495057;
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="number"]:focus,
+.form-group textarea:focus,
+.form-group select:focus,
+.form-group input[type="file"]:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
 }
 
 .form-group textarea {
     resize: vertical;
-    min-height: 100px;
+    min-height: 120px;
 }
 
 /* Стили для чекбокса */
 .form-group input[type="checkbox"] {
-    margin-right: 8px;
+    margin-right: 10px;
+    transform: scale(1.2); /* Увеличим чекбокс */
+    vertical-align: middle;
 }
 
 /* Стили для кнопки отправки формы */
 button[type="submit"] {
     display: block;
     width: 100%;
-    padding: 10px;
-    background-color: #5cb85c;
+    padding: 12px 15px;
+    background-color: #007bff; /* Основной цвет */
     color: white;
     border: none;
-    border-radius: 4px;
-    font-size: 16px;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button[type="submit"]:hover {
-    background-color: #4cae4c;
+    background-color: #0056b3;
+    transform: translateY(-1px);
 }
 
 /* Стили для сообщений */
 #add-product-message,
 #add-product-item-message {
-    margin-top: 15px;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 5px;
     text-align: center;
     font-weight: bold;
+    font-size: 1rem;
 }
 
 .message-success {
-    color: green;
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
 }
 
 .message-error {
-    color: red;
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
 } 
