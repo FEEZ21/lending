@@ -73,16 +73,14 @@ router.get('/products', adminMiddleware.canManageProducts, async (req, res) => {
 });
 
 // Создать новый продукт
-router.post('/products', 
+router.post('/products',
     auth,
     adminMiddleware.canManageProducts,
     upload.single('image'),
-    [
-        body('name').notEmpty().trim(),
-        body('description').notEmpty(),
-        body('price').isNumeric().isFloat({ min: 0 }),
-        body('category').notEmpty(),
-    ],
+    body('name').notEmpty().trim(),
+    body('description').notEmpty(),
+    body('price').isNumeric().isFloat({ min: 0 }),
+    body('category').notEmpty(),
     async (req, res) => {
         const { name, description, price, category, stock } = req.body;
 
