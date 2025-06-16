@@ -44,7 +44,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Create a new product (admin only)
-router.post('/', auth, async (req, res) => {
+router.post('/', [auth], async (req, res) => {
     try {
         const product = new Product(req.body);
         await product.save();
@@ -88,7 +88,7 @@ router.delete('/:id', auth, async (req, res) => {
 });
 
 // Добавление товара с изображением
-router.post('/add', upload.single('image'), async (req, res) => {
+router.post('/add', [auth, upload.single('image')], async (req, res) => {
   try {
     const { name, price } = req.body;
     const image = req.file ? `/uploads/products/${req.file.filename}` : '';

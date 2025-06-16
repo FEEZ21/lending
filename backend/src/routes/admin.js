@@ -4,14 +4,14 @@ const multer = require('multer');
 const path = require('path');
 const fs = require('fs').promises;
 const Product = require('../models/Product');
-const adminMiddleware = require('../middleware/admin');
+const { isAdmin, canManageProducts, canManageUsers, canManageOrders, canManageContent } = require('../middleware/admin');
 const { body, validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
 
 // Настройка multer для загрузки изображений
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'D:/Work/lending/images/');
+        cb(null, path.join(__dirname, '../../../uploads/images'));
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -37,7 +37,7 @@ const upload = multer({
 });
 
 // Получить все продукты (с пагинацией и фильтрацией)
-router.get('/products', adminMiddleware.canManageProducts, async (req, res) => {
+router.get('/products', canManageProducts, async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
@@ -73,17 +73,24 @@ router.get('/products', adminMiddleware.canManageProducts, async (req, res) => {
 });
 
 // Создать новый продукт
+const createProductMiddleware = [
+    auth.auth,
+    canManageProducts,
+    upload.single('image'),
+    body('name').notEmpty().trim(),
+    body('description').notEmpty(),
+    body('price').isNumeric().isFloat({ min: 0 }),
+    body('category').notEmpty(),
+];
+
+console.log("Type of auth.auth:", typeof auth.auth);
+console.log("Type of canManageProducts:", typeof canManageProducts);
+console.log("Type of upload.single('image'):", typeof upload.single('image'));
+console.log("Type of body('name').notEmpty().trim():", typeof body('name').notEmpty().trim());
+
 router.post(
     '/products',
-    [
-        auth,
-        adminMiddleware.canManageProducts,
-        upload.single('image'),
-        body('name').notEmpty().trim(),
-        body('description').notEmpty(),
-        body('price').isNumeric().isFloat({ min: 0 }),
-        body('category').notEmpty(),
-    ],
+    createProductMiddleware,
     async (req, res) => {
         const { name, description, price, category, stock } = req.body;
 
@@ -112,7 +119,7 @@ router.post(
 
 // Обновить продукт
 router.put('/products/:id',
-    adminMiddleware.canManageProducts,
+    canManageProducts,
     upload.single('image'),
     async (req, res) => {
         try {
@@ -141,7 +148,7 @@ router.put('/products/:id',
 );
 
 // Удалить продукт
-router.delete('/products/:id', adminMiddleware.canManageProducts, async (req, res) => {
+router.delete('/products/:id', canManageProducts, async (req, res) => {
     try {
         const product = await Product.findById(req.params.id);
         if (!product) {
@@ -161,14 +168,14 @@ router.delete('/products/:id', adminMiddleware.canManageProducts, async (req, re
 
 // Удалить изображение продукта
 router.delete('/products/:id/images/:imageIndex',
-    adminMiddleware.canManageProducts,
+    canManageProducts,
     async (req, res) => {
         return res.status(400).json({ message: 'Этот маршрут не поддерживается для продуктов с одним изображением.' });
     }
 );
 
 // Получить статистику
-router.get('/dashboard', adminMiddleware.isAdmin, async (req, res) => {
+router.get('/dashboard', isAdmin, async (req, res) => {
     try {
         const totalProducts = await Product.countDocuments();
         const totalUsers = await User.countDocuments();
