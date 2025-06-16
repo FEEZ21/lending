@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                     const imgElement = cardElement.querySelector('img');
                     if (imgElement) {
-                        let imageUrl = product.images && product.images.length > 0 ? `https://lending-juaw.onrender.com/${product.images[0]}` : null;
+                        let imageUrl = product.images && product.images.length > 0 ? `https://lending-juaw.onrender.com/uploads/${product.images[0]}` : null;
 
                         if (!imageUrl) {
                             imageUrl = '../images/placeholder.png';
