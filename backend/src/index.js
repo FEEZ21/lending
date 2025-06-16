@@ -16,18 +16,30 @@ app.use(compression());
 app.use(helmet());
 
 // Создаем директорию для загрузки файлов, если она не существует
-const uploadDirProducts = path.join(__dirname, '../..', 'uploads', 'products');
-if (!require('fs').existsSync(uploadDirProducts)) {
-    require('fs').mkdirSync(uploadDirProducts, { recursive: true });
+const uploadDirProducts = path.join(__dirname, '..' , 'uploads', 'products');
+console.log(`Attempting to create product upload directory: ${uploadDirProducts}`);
+try {
+    if (!require('fs').existsSync(uploadDirProducts)) {
+        require('fs').mkdirSync(uploadDirProducts, { recursive: true });
+        console.log(`Product upload directory created: ${uploadDirProducts}`);
+    }
+} catch (error) {
+    console.error(`Error creating product upload directory: ${error.message}`);
 }
 
-const uploadDirCategories = path.join(__dirname, '../..', 'uploads', 'categories');
-if (!require('fs').existsSync(uploadDirCategories)) {
-    require('fs').mkdirSync(uploadDirCategories, { recursive: true });
+const uploadDirCategories = path.join(__dirname, '..' , 'uploads', 'categories');
+console.log(`Attempting to create category upload directory: ${uploadDirCategories}`);
+try {
+    if (!require('fs').existsSync(uploadDirCategories)) {
+        require('fs').mkdirSync(uploadDirCategories, { recursive: true });
+        console.log(`Category upload directory created: ${uploadDirCategories}`);
+    }
+} catch (error) {
+    console.error(`Error creating category upload directory: ${error.message}`);
 }
 
 // Правильный путь для статического обслуживания изображений
-const imagesPath = path.join(__dirname, '../..', 'uploads');
+const imagesPath = path.join(__dirname, '..' , 'uploads');
 
 app.use((req, res, next) => {
   if (req.path.startsWith('/uploads/')) {
