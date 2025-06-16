@@ -11,7 +11,7 @@ const auth = require('../middleware/auth');
 // Настройка multer для загрузки изображений
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, '../../../uploads/products'));
+        cb(null, path.join(__dirname, '../../uploads/products'));
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -103,7 +103,7 @@ router.post(
                 name,
                 description,
                 price,
-                image: `/uploads/products/${req.file.filename}`, // Store the URL-compatible relative path
+                image: `products/${req.file.filename}`,
                 category,
                 stock
             });
@@ -131,10 +131,10 @@ router.put('/products/:id',
             if (req.file) {
                 if (product.image) {
                     // Удаляем старое изображение, если оно существует и это не изображение по умолчанию
-                    const oldImagePath = path.join(__dirname, '../../../', product.image);
+                    const oldImagePath = path.join(__dirname, '../../uploads/', product.image);
                     await fs.unlink(oldImagePath).catch(() => {});
                 }
-                product.image = `/uploads/products/${req.file.filename}`;
+                product.image = `products/${req.file.filename}`;
             }
 
             Object.assign(product, req.body);
@@ -159,7 +159,7 @@ router.delete('/products/:id', canManageProducts, async (req, res) => {
 
         if (product.image) {
             // Удаляем изображение, если оно существует и это не изображение по умолчанию
-            const oldImagePath = path.join(__dirname, '../../../', product.image);
+            const oldImagePath = path.join(__dirname, '../../uploads/', product.image);
             await fs.unlink(oldImagePath).catch(() => {});
         }
 

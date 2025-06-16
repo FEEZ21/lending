@@ -10,7 +10,7 @@ const fs = require('fs'); // Import fs for file deletion
 // Set up multer for file uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '../../../uploads/categories'));
+        cb(null, path.join(__dirname, '../../uploads/categories'));
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + path.extname(file.originalname));
@@ -55,7 +55,7 @@ router.post(
                 return res.status(400).json({ message: 'Category already exists.' });
             }
 
-            const imagePath = `/uploads/categories/${req.file.filename}`;
+            const imagePath = `categories/${req.file.filename}`;
             console.log("Saving image path to DB:", imagePath);
 
             const category = new Category({
