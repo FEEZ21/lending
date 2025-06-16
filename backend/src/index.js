@@ -18,18 +18,22 @@ app.use(helmet());
 
 // Создаем директорию для загрузки файлов, если она не существует
 const uploadDirProducts = path.join(__dirname, '..' , 'uploads', 'products');
+console.log(`Attempting to create product upload directory: ${uploadDirProducts}`);
 try {
     if (!fs.existsSync(uploadDirProducts)) {
         fs.mkdirSync(uploadDirProducts, { recursive: true });
+        console.log(`Product upload directory created: ${uploadDirProducts}`);
     }
 } catch (error) {
     console.error(`Error creating product upload directory: ${error.message}`);
 }
 
 const uploadDirCategories = path.join(__dirname, '..' , 'uploads', 'categories');
+console.log(`Attempting to create category upload directory: ${uploadDirCategories}`);
 try {
     if (!fs.existsSync(uploadDirCategories)) {
         fs.mkdirSync(uploadDirCategories, { recursive: true });
+        console.log(`Category upload directory created: ${uploadDirCategories}`);
     }
 } catch (error) {
     console.error(`Error creating category upload directory: ${error.message}`);

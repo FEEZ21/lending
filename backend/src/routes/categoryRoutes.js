@@ -29,14 +29,18 @@ router.post(
     adminAuth,
     // Removed adminMiddleware.canManageProducts as adminAuth already handles this
     (req, res, next) => {
+        console.log("Before Multer upload. Request body:", req.body);
         upload.single('image')(req, res, function (err) {
             if (err instanceof multer.MulterError) {
                 // A Multer error occurred when uploading.
+                console.error("Multer Error:", err);
                 return res.status(400).json({ message: err.message });
             } else if (err) {
                 // An unknown error occurred when uploading.
+                console.error("Unknown Upload Error:", err);
                 return res.status(500).json({ message: err.message });
             }
+            console.log("Multer upload complete. req.file:", req.file);
             // Everything went fine.
             next();
         });
