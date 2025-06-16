@@ -16,20 +16,21 @@ app.use(compression());
 app.use(helmet());
 
 // Создаем директорию для загрузки файлов, если она не существует
-const uploadDirProducts = path.join(__dirname, '../../images');
+const uploadDirProducts = path.join(__dirname, '../..', 'uploads', 'products');
 if (!require('fs').existsSync(uploadDirProducts)) {
     require('fs').mkdirSync(uploadDirProducts, { recursive: true });
 }
 
-const uploadDirCategories = 'D:/Work/lending/images';
+const uploadDirCategories = path.join(__dirname, '../..', 'uploads', 'categories');
 if (!require('fs').existsSync(uploadDirCategories)) {
     require('fs').mkdirSync(uploadDirCategories, { recursive: true });
 }
 
-const imagesPath = 'D:/Work/lending/images';
+// Правильный путь для статического обслуживания изображений
+const imagesPath = path.join(__dirname, '../..', 'uploads');
 
 app.use((req, res, next) => {
-  if (req.path.startsWith('/images/')) {
+  if (req.path.startsWith('/uploads/')) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
@@ -37,7 +38,7 @@ app.use((req, res, next) => {
   }
   next();
 });
-app.use('/images', express.static(imagesPath));
+app.use('/uploads', express.static(imagesPath));
 
 // Routes
 // API routes will now also be covered by the global CORS middleware above
