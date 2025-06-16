@@ -7,11 +7,12 @@ const Product = require('../models/Product');
 const { isAdmin, canManageProducts, canManageUsers, canManageOrders, canManageContent } = require('../middleware/admin');
 const { body, validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
+const { uploadDirProducts } = require('../index'); // Import the absolute upload path
 
 // Настройка multer для загрузки изображений
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, '../../uploads/products'));
+        cb(null, uploadDirProducts); // Use the absolute path from index.js
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -131,7 +132,7 @@ router.put('/products/:id',
             if (req.file) {
                 if (product.image) {
                     // Удаляем старое изображение, если оно существует и это не изображение по умолчанию
-                    const oldImagePath = path.join(__dirname, '../../uploads/', product.image);
+                    const oldImagePath = path.join(uploadDirProducts, product.image.replace('products/', '')); // Corrected path resolution
                     await fs.unlink(oldImagePath).catch(() => {});
                 }
                 product.image = `products/${req.file.filename}`;
@@ -159,7 +160,7 @@ router.delete('/products/:id', canManageProducts, async (req, res) => {
 
         if (product.image) {
             // Удаляем изображение, если оно существует и это не изображение по умолчанию
-            const oldImagePath = path.join(__dirname, '../../uploads/', product.image);
+            const oldImagePath = path.join(uploadDirProducts, product.image.replace('products/', '')); // Corrected path resolution
             await fs.unlink(oldImagePath).catch(() => {});
         }
 

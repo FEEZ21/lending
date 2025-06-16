@@ -6,11 +6,12 @@ const adminMiddleware = require('../middleware/admin'); // Corrected path
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs'); // Import fs for file deletion
+const { uploadDirCategories } = require('../index'); // Import the absolute upload path
 
 // Set up multer for file uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '../../uploads/categories'));
+        cb(null, uploadDirCategories); // Use the absolute path from index.js
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + path.extname(file.originalname));

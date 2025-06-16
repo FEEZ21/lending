@@ -4,12 +4,13 @@ const mongoose = require('mongoose');
 const path = require('path');
 const compression = require('compression');
 const helmet = require('helmet');
+const fs = require('fs');
+
 require('dotenv').config();
 
 const app = express();
 
 // Middleware
-// Re-added global CORS configuration for all API routes
 app.use(cors({ origin: '*' }));
 app.use(express.json());
 app.use(compression());
@@ -17,22 +18,18 @@ app.use(helmet());
 
 // Создаем директорию для загрузки файлов, если она не существует
 const uploadDirProducts = path.join(__dirname, '..' , 'uploads', 'products');
-console.log(`Attempting to create product upload directory: ${uploadDirProducts}`);
 try {
-    if (!require('fs').existsSync(uploadDirProducts)) {
-        require('fs').mkdirSync(uploadDirProducts, { recursive: true });
-        console.log(`Product upload directory created: ${uploadDirProducts}`);
+    if (!fs.existsSync(uploadDirProducts)) {
+        fs.mkdirSync(uploadDirProducts, { recursive: true });
     }
 } catch (error) {
     console.error(`Error creating product upload directory: ${error.message}`);
 }
 
 const uploadDirCategories = path.join(__dirname, '..' , 'uploads', 'categories');
-console.log(`Attempting to create category upload directory: ${uploadDirCategories}`);
 try {
-    if (!require('fs').existsSync(uploadDirCategories)) {
-        require('fs').mkdirSync(uploadDirCategories, { recursive: true });
-        console.log(`Category upload directory created: ${uploadDirCategories}`);
+    if (!fs.existsSync(uploadDirCategories)) {
+        fs.mkdirSync(uploadDirCategories, { recursive: true });
     }
 } catch (error) {
     console.error(`Error creating category upload directory: ${error.message}`);
@@ -52,8 +49,11 @@ app.use((req, res, next) => {
 });
 app.use('/uploads', express.static(imagesPath));
 
+// Экспортируем пути загрузки для использования в маршрутах
+exports.uploadDirProducts = uploadDirProducts;
+exports.uploadDirCategories = uploadDirCategories;
+
 // Routes
-// API routes will now also be covered by the global CORS middleware above
 app.use('/api/products', require('./routes/productRoutes'));
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/cart', require('./routes/cart'));
