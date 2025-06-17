@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             // Изображения теперь обслуживаются фронтендом статически, убираем префикс бэкенда
-            productImageElement.src = imageUrl;
+            productImageElement.src = `https://lending-juaw.onrender.com/uploads/${imageUrl}`;
             productImageElement.alt = product.name;
         }
 

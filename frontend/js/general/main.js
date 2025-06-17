@@ -142,10 +142,10 @@ async function renderCategories() {
 
                 if (imageFileName) {
                     // Remove 'categories/', 'products/', or 'images/' prefix if present
-                    imageFileName = imageFileName.replace(/^(categories\/|products\/|images\/)/, '');
+                    // imageFileName = imageFileName.replace(/^(categories\/|products\/|images\/)/, '');
                 }
 
-                let imageUrl = imageFileName ? `https://lending-juaw.onrender.com/images/${imageFileName}` : null;
+                let imageUrl = imageFileName ? `https://lending-juaw.onrender.com/uploads/${imageFileName}` : null;
 
                 if (!imageUrl) {
                     imageUrl = 'images/placeholder.png';
