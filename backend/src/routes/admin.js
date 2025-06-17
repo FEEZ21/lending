@@ -104,7 +104,7 @@ router.post(
                 name,
                 description,
                 price,
-                image: req.file.filename,
+                image: req.file.filename, // Store only the filename
                 category,
                 stock
             });
@@ -135,7 +135,7 @@ router.put('/products/:id',
                     const oldImagePath = path.join(path.join(__dirname, '..', '..', '..', 'frontend', 'images'), product.image.replace('products/', '')); // Corrected path resolution
                     await fs.unlink(oldImagePath).catch(() => {});
                 }
-                product.image = `products/${req.file.filename}`;
+                product.image = req.file.filename;
             }
 
             Object.assign(product, req.body);
