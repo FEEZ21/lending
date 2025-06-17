@@ -86,7 +86,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                     const imgElement = cardElement.querySelector('img');
                     if (imgElement) {
-                        let imageUrl = product.images && product.images.length > 0 ? `https://lending-juaw.onrender.com/images/${product.images[0]}` : null;
+                        let imageFileName = product.images && product.images.length > 0 ? product.images[0] : null;
+
+                        if (imageFileName) {
+                            // Remove 'categories/' or 'products/' prefix if present
+                            imageFileName = imageFileName.replace(/^(categories\/|products\/)/, '');
+                        }
+
+                        let imageUrl = imageFileName ? `https://lending-juaw.onrender.com/images/${imageFileName}` : null;
 
                         if (!imageUrl) {
                             imageUrl = '../images/placeholder.png';
