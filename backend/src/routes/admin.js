@@ -104,7 +104,7 @@ router.post(
                 name,
                 description,
                 price,
-                image: `products/${req.file.filename}`,
+                image: req.file.filename,
                 category,
                 stock
             });
