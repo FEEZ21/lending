@@ -138,14 +138,19 @@ async function renderCategories() {
 
             const imgElement = cardElement.querySelector('img');
             if (imgElement) {
-                let imageUrl = category.image;
+                let imageFileName = category.image;
+
+                if (imageFileName) {
+                    // Remove 'categories/', 'products/', or 'images/' prefix if present
+                    imageFileName = imageFileName.replace(/^(categories\/|products\/|images\/)/, '');
+                }
+
+                let imageUrl = imageFileName ? `https://lending-juaw.onrender.com/images/${imageFileName}` : null;
 
                 if (!imageUrl) {
                     imageUrl = 'images/placeholder.png';
                 }
 
-                // Добавляем полный URL, если путь относительный
-                // Теперь просто используем относительный путь, так как изображения находятся на фронтенде
                 imgElement.src = imageUrl;
                 imgElement.alt = category.name;
             }
