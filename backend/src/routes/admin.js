@@ -7,12 +7,12 @@ const Product = require('../models/Product');
 const { isAdmin, canManageProducts, canManageUsers, canManageOrders, canManageContent } = require('../middleware/admin');
 const { body, validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
-const { uploadDirProducts } = require('../index'); // Import the absolute upload path
+// const { uploadDirProducts } = require('../index'); // Import the absolute upload path
 
 // Настройка multer для загрузки изображений
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, uploadDirProducts); // Use the absolute path to products upload directory
+        cb(null, path.join(__dirname, '..', '..', '..', 'frontend', 'images')); // Use the absolute path to frontend/images
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -104,7 +104,7 @@ router.post(
                 name,
                 description,
                 price,
-                image: `products/${req.file.filename}`, // Store relative path
+                image: req.file.filename, // Store only the filename
                 category,
                 stock
             });
@@ -132,10 +132,10 @@ router.put('/products/:id',
             if (req.file) {
                 if (product.image) {
                     // Удаляем старое изображение, если оно существует и это не изображение по умолчанию
-                    const oldImagePath = path.join(uploadDirProducts, product.image.replace('products/', '')); // Corrected path resolution
+                    const oldImagePath = path.join(path.join(__dirname, '..', '..', '..', 'frontend', 'images'), product.image.replace('products/', '')); // Corrected path resolution
                     await fs.unlink(oldImagePath).catch(() => {});
                 }
-                product.image = `products/${req.file.filename}`;
+                product.image = req.file.filename;
             }
 
             Object.assign(product, req.body);
@@ -160,7 +160,7 @@ router.delete('/products/:id', canManageProducts, async (req, res) => {
 
         if (product.image) {
             // Удаляем изображение, если оно существует и это не изображение по умолчанию
-            const oldImagePath = path.join(uploadDirProducts, product.image.replace('products/', '')); // Corrected path resolution
+            const oldImagePath = path.join(path.join(__dirname, '..', '..', '..', 'frontend', 'images'), product.image.replace('products/', '')); // Corrected path resolution
             await fs.unlink(oldImagePath).catch(() => {});
         }
 

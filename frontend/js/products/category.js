@@ -90,10 +90,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
                         if (imageFileName) {
                             // Remove 'categories/' or 'products/' prefix if present
-                            // imageFileName = imageFileName.replace(/^(categories\/|products\/)/, '');
+                            imageFileName = imageFileName.replace(/^(categories\/|products\/)/, '');
                         }
 
-                        let imageUrl = imageFileName ? `https://lending-juaw.onrender.com/uploads/${imageFileName}` : null;
+                        let imageUrl = imageFileName ? `https://lending-juaw.onrender.com/images/${imageFileName}` : null;
 
                         if (!imageUrl) {
                             imageUrl = '../images/placeholder.png';

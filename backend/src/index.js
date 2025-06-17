@@ -17,34 +17,33 @@ app.use(compression());
 app.use(helmet());
 
 // Создаем директорию для загрузки файлов, если она не существует
-const uploadDirProducts = path.join(__dirname, '..' , 'uploads', 'products');
-console.log(`Attempting to create product upload directory: ${uploadDirProducts}`);
-try {
-    if (!fs.existsSync(uploadDirProducts)) {
-        fs.mkdirSync(uploadDirProducts, { recursive: true });
-        console.log(`Product upload directory created: ${uploadDirProducts}`);
-    }
-} catch (error) {
-    console.error(`Error creating product upload directory: ${error.message}`);
-}
+// const uploadDirProducts = path.join(__dirname, '..' , 'uploads', 'products');
+// console.log(`Attempting to create product upload directory: ${uploadDirProducts}`);
+// try {
+//     if (!fs.existsSync(uploadDirProducts)) {
+//         fs.mkdirSync(uploadDirProducts, { recursive: true });
+//         console.log(`Product upload directory created: ${uploadDirProducts}`);
+//     }
+// } catch (error) {
+//     console.error(`Error creating product upload directory: ${error.message}`);
+// }
 
-const uploadDirCategories = path.join(__dirname, '..' , 'uploads', 'categories');
-console.log(`Attempting to create category upload directory: ${uploadDirCategories}`);
-try {
-    if (!fs.existsSync(uploadDirCategories)) {
-        fs.mkdirSync(uploadDirCategories, { recursive: true });
-        console.log(`Category upload directory created: ${uploadDirCategories}`);
-    }
-} catch (error) {
-    console.error(`Error creating category upload directory: ${error.message}`);
-}
+// const uploadDirCategories = path.join(__dirname, '..' , 'uploads', 'categories');
+// console.log(`Attempting to create category upload directory: ${uploadDirCategories}`);
+// try {
+//     if (!fs.existsSync(uploadDirCategories)) {
+//         fs.mkdirSync(uploadDirCategories, { recursive: true });
+//         console.log(`Category upload directory created: ${uploadDirCategories}`);
+//     }
+// } catch (error) {
+//     console.error(`Error creating category upload directory: ${error.message}`);
+// }
 
 // Правильный путь для статического обслуживания изображений
-const uploadsPath = path.join(__dirname, '..', 'uploads');
-console.log("Serving static files from:", uploadsPath);
+const imagesPath = path.join(__dirname, '..', '..', 'frontend', 'images');
 
 app.use((req, res, next) => {
-  if (req.path.startsWith('/uploads/')) {
+  if (req.path.startsWith('/images/')) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
@@ -52,11 +51,11 @@ app.use((req, res, next) => {
   }
   next();
 });
-app.use('/uploads', express.static(uploadsPath));
+app.use('/images', express.static(imagesPath));
 
 // Экспортируем пути загрузки для использования в маршрутах
-exports.uploadDirProducts = uploadDirProducts;
-exports.uploadDirCategories = uploadDirCategories;
+// exports.uploadDirProducts = uploadDirProducts;
+// exports.uploadDirCategories = uploadDirCategories;
 
 // Routes
 app.use('/api/products', require('./routes/productRoutes'));
