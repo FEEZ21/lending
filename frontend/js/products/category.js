@@ -44,8 +44,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     function getImageUrl(imagePath) {
         if (!imagePath) return '../images/placeholder.png';
         imagePath = imagePath.replace(/^([.]{2}\/)+/, '');
-        imagePath = imagePath.replace(/^(images\/)+/, 'images/');
-        return `https://lending-juaw.onrender.com/${imagePath}`;
+        imagePath = imagePath.replace(/^(images\/)+/, '');
+        return `https://lending-juaw.onrender.com/images/${imagePath}`;
     }
 
     // Function to load and render products
