@@ -139,18 +139,10 @@ async function renderCategories() {
             const imgElement = cardElement.querySelector('img');
             if (imgElement) {
                 let imageFileName = category.image;
-
-                if (imageFileName) {
-                    // Remove 'categories/', 'products/', or 'images/' prefix if present
-                    imageFileName = imageFileName.replace(/^(categories\/|products\/|images\/)/, '');
-                }
-
-                let imageUrl = imageFileName ? `https://lending-juaw.onrender.com/images/${imageFileName}` : null;
-
+                let imageUrl = imageFileName ? `https://lending-juaw.onrender.com/${imageFileName}` : null;
                 if (!imageUrl) {
                     imageUrl = 'images/placeholder.png';
                 }
-
                 imgElement.src = imageUrl;
                 imgElement.alt = category.name;
             }

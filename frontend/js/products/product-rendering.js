@@ -28,7 +28,7 @@ async function renderProductsGrid(products, detailsBasePath) {
             // Заполняем шаблон данными товара
             const imgElement = productCardElement.querySelector('img');
             if (imgElement) {
-                imgElement.src = getImageUrl(product.image);
+                imgElement.src = product.image;
                 imgElement.alt = product.name;
             }
 

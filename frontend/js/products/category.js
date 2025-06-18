@@ -95,17 +95,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                     const imgElement = cardElement.querySelector('img');
                     if (imgElement) {
                         let imageFileName = product.images && product.images.length > 0 ? product.images[0] : null;
-
-                        if (imageFileName) {
-                            // Remove 'categories/' or 'products/' prefix if present
-                            imageFileName = imageFileName.replace(/^(categories\/|products\/)/, '');
-                        }
-
-                        let imageUrl = getImageUrl(imageFileName);
+                        let imageUrl = imageFileName ? `${backendUrl}/${imageFileName}` : null;
                         if (!imageUrl) {
                             imageUrl = '../images/placeholder.png';
                         }
-
                         imgElement.src = imageUrl;
                         imgElement.alt = product.name;
                     }
