@@ -41,6 +41,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         return;
     }
 
+    function getImageUrl(imagePath) {
+        if (!imagePath) return '../images/placeholder.png';
+        imagePath = imagePath.replace(/^([.]{2}\/)+/, '');
+        imagePath = imagePath.replace(/^(images\/)+/, 'images/');
+        return `https://lending-juaw.onrender.com/${imagePath}`;
+    }
+
     // Function to load and render products
     async function loadProducts(featured = null, sortBy = null, newArrival = null) {
         try {
@@ -94,7 +101,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             imageFileName = imageFileName.replace(/^(categories\/|products\/)/, '');
                         }
 
-                        let imageUrl = imageFileName ? `${backendUrl}/${imageFileName}` : null;
+                        let imageUrl = getImageUrl(imageFileName);
                         if (!imageUrl) {
                             imageUrl = '../images/placeholder.png';
                         }

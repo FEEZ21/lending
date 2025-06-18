@@ -28,11 +28,7 @@ async function renderProductsGrid(products, detailsBasePath) {
             // Заполняем шаблон данными товара
             const imgElement = productCardElement.querySelector('img');
             if (imgElement) {
-                if (product.image) {
-                    imgElement.src = `https://lending-juaw.onrender.com/${product.image}`;
-                } else {
-                    imgElement.src = '../images/placeholder.png';
-                }
+                imgElement.src = getImageUrl(product.image);
                 imgElement.alt = product.name;
             }
 
@@ -72,4 +68,11 @@ async function renderProductsGrid(products, detailsBasePath) {
             grid.appendChild(productCardElement);
         }
     });
+}
+
+function getImageUrl(imagePath) {
+    if (!imagePath) return '../images/placeholder.png';
+    imagePath = imagePath.replace(/^([.]{2}\/)+/, '');
+    imagePath = imagePath.replace(/^(images\/)+/, 'images/');
+    return `https://lending-juaw.onrender.com/${imagePath}`;
 } 
