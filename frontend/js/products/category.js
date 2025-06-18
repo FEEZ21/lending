@@ -94,8 +94,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                             imageFileName = imageFileName.replace(/^(categories\/|products\/)/, '');
                         }
 
-                        let imageUrl = imageFileName ? `${backendUrl}/images/${imageFileName}` : null;
-
+                        let imageUrl = null;
+                        if (imageFileName) {
+                            if (imageFileName.startsWith('images/')) {
+                                imageUrl = `${backendUrl}/${imageFileName}`;
+                            } else {
+                                imageUrl = `${backendUrl}/images/${imageFileName}`;
+                            }
+                        }
                         if (!imageUrl) {
                             imageUrl = '../images/placeholder.png';
                         }
