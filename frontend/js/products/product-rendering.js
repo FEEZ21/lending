@@ -28,7 +28,11 @@ async function renderProductsGrid(products, detailsBasePath) {
             // Заполняем шаблон данными товара
             const imgElement = productCardElement.querySelector('img');
             if (imgElement) {
-                imgElement.src = product.image;
+                if (product.image) {
+                    imgElement.src = `https://lending-juaw.onrender.com/${product.image}`;
+                } else {
+                    imgElement.src = '../images/placeholder.png';
+                }
                 imgElement.alt = product.name;
             }
 
