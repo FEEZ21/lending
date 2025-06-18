@@ -139,7 +139,7 @@ async function renderCategories() {
             const imgElement = cardElement.querySelector('img');
             if (imgElement) {
                 let imageFileName = category.image;
-                let imageUrl = imageFileName ? `https://lending-juaw.onrender.com/images/${imageFileName}` : null;
+                let imageUrl = imageFileName ? `https://lending-juaw.onrender.com/${imageFileName}` : null;
                 if (!imageUrl) {
                     imageUrl = 'images/placeholder.png';
                 }
