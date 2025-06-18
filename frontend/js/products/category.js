@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                             imageFileName = imageFileName.replace(/^(categories\/|products\/)/, '');
                         }
 
-                        let imageUrl = imageFileName ? `https://lending-juaw.onrender.com/images/${imageFileName}` : null;
+                        let imageUrl = imageFileName ? `https://lending-juaw.onrender.com/${imageFileName}` : null;
 
                         if (!imageUrl) {
                             imageUrl = '../images/placeholder.png';
