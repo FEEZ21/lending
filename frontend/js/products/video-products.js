@@ -4,7 +4,7 @@ const videoProducts = [
         id: 'video-1',
         name: 'Видео',
         price: '1000 ₽',
-        image: '../images/first.png',
+        image: '../first.png',
         description: 'Видеопередатчик 1650 МГц 3 Вт.'
     },
     {
