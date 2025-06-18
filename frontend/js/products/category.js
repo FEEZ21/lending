@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    const backendUrl = "https://lending-juaw.onrender.com";
     // Get category ID from URL parameters
     const urlParams = new URLSearchParams(window.location.search);
     const categoryId = urlParams.get('id');
