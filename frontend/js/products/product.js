@@ -39,8 +39,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             let imageUrl = product.images && product.images.length > 0 ? product.images[0] : null; // Use product.images array
 
             if (imageUrl) {
-                // Всегда используем backendUrl для изображений
-                imageUrl = `${backendUrl}/${imageUrl}`;
+                // Если путь не начинается с http, добавляем backendUrl
+                if (!/^https?:\/\//.test(imageUrl)) {
+                    imageUrl = `https://lending-juaw.onrender.com/${imageUrl}`;
+                }
             } else {
                 imageUrl = '../images/placeholder.png';
             }
