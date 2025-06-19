@@ -37,11 +37,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (productImageElement) {
             let imageUrl = product.images && product.images.length > 0 ? product.images[0] : null; // Use product.images array
 
-            if (!imageUrl) {
+            if (imageUrl) {
+                // Если путь не абсолютный, добавляем backendUrl
+                if (!imageUrl.startsWith('http')) {
+                    imageUrl = `https://lending-juaw.onrender.com/${imageUrl}`;
+                }
+            } else {
                 imageUrl = '../images/placeholder.png';
             }
 
-            // Изображения теперь обслуживаются фронтендом статически, убираем префикс бэкенда
             productImageElement.src = imageUrl;
             productImageElement.alt = product.name;
         }
