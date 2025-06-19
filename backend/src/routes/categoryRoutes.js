@@ -60,7 +60,7 @@ router.post(
                 return res.status(400).json({ message: 'Category already exists.' });
             }
 
-            const imagePath = req.file.filename; // Store only the filename
+            const imagePath = `images/${req.file.filename}`; // Store with 'images/' prefix
             console.log("Saving image path to DB:", imagePath);
 
             const category = new Category({
