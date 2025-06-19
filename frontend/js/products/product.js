@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', async () => {
+    const backendUrl = 'https://lending-juaw.onrender.com';
     const urlParams = new URLSearchParams(window.location.search);
     const productId = urlParams.get('id');
     
@@ -10,7 +11,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         // Fetch product details from the backend
-        const response = await fetch(`https://lending-juaw.onrender.com/api/products/${productId}`);
+        const response = await fetch(`${backendUrl}/api/products/${productId}`);
         if (!response.ok) {
             if (response.status === 404) {
                 document.querySelector('.product-details').innerHTML = '<p>Товар не найден.</p>';
@@ -38,10 +39,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             let imageUrl = product.images && product.images.length > 0 ? product.images[0] : null; // Use product.images array
 
             if (imageUrl) {
-                // Если путь не абсолютный, добавляем backendUrl
-                if (!imageUrl.startsWith('http')) {
-                    imageUrl = `https://lending-juaw.onrender.com/${imageUrl}`;
-                }
+                // Всегда используем backendUrl для изображений
+                imageUrl = `${backendUrl}/${imageUrl}`;
             } else {
                 imageUrl = '../images/placeholder.png';
             }
@@ -63,7 +62,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             try {
-                const response = await fetch('https://lending-juaw.onrender.com/api/cart/items', {
+                const response = await fetch(`${backendUrl}/api/cart/items`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
