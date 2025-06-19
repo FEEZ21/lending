@@ -8,10 +8,25 @@ const path = require('path');
 const fs = require('fs'); // Import fs for file deletion
 // const { uploadDirCategories } = require('../index'); // Import the absolute upload path
 
+const imagesDir = path.join(__dirname, '..', '..', '..', 'frontend', 'images');
+if (!fs.existsSync(imagesDir)) {
+    fs.mkdirSync(imagesDir, { recursive: true });
+    console.log('Created images directory:', imagesDir);
+}
+
 // Set up multer for file uploads
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '..', '..', '..', 'frontend', 'images')); // Use the absolute path to frontend/images
+        try {
+            if (!fs.existsSync(imagesDir)) {
+                fs.mkdirSync(imagesDir, { recursive: true });
+                console.log('Created images directory (on upload):', imagesDir);
+            }
+            cb(null, imagesDir);
+        } catch (err) {
+            console.error('Error creating images directory:', err);
+            cb(err);
+        }
     },
     filename: (req, file, cb) => {
         cb(null, Date.now() + path.extname(file.originalname));
