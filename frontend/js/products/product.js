@@ -39,9 +39,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             let imageUrl = product.images && product.images.length > 0 ? product.images[0] : null; // Use product.images array
 
             if (imageUrl) {
-                // Если путь не начинается с http, добавляем backendUrl
+                // Гарантируем абсолютный путь к backendUrl
+                const backendUrl = 'https://lending-juaw.onrender.com';
+                imageUrl = imageUrl.replace(/^\/+/, ''); // убираем ведущие слэши
                 if (!/^https?:\/\//.test(imageUrl)) {
-                    imageUrl = `https://lending-juaw.onrender.com/${imageUrl}`;
+                    imageUrl = `${backendUrl}/${imageUrl}`;
                 }
             } else {
                 imageUrl = '../images/placeholder.png';
