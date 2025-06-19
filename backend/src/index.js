@@ -11,7 +11,30 @@ require('dotenv').config();
 const app = express();
 
 // Middleware
-app.use(cors({ origin: '*' }));
+const allowedOrigins = [
+  'https://lending-frontend-s132.onrender.com',
+  'http://localhost:3000',
+  'http://localhost:5173',
+];
+app.use(cors({
+  origin: function(origin, callback) {
+    // Разрешаем запросы без origin (например, curl, Postman)
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    } else {
+      return callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+}));
+
+// Preflight для всех маршрутов
+app.options('*', cors({
+  origin: allowedOrigins,
+  credentials: true
+}));
+
 app.use(express.json());
 app.use(compression());
 app.use(helmet());
