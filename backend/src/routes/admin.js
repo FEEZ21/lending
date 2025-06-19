@@ -9,10 +9,26 @@ const { body, validationResult } = require('express-validator');
 const auth = require('../middleware/auth');
 // const { uploadDirProducts } = require('../index'); // Import the absolute upload path
 
+const imagesDir = path.join(__dirname, '..', '..', '..', 'frontend', 'images');
+const fsSync = require('fs');
+if (!fsSync.existsSync(imagesDir)) {
+    fsSync.mkdirSync(imagesDir, { recursive: true });
+    console.log('Created images directory:', imagesDir);
+}
+
 // Настройка multer для загрузки изображений
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, path.join(__dirname, '..', '..', '..', 'frontend', 'images')); // Use the absolute path to frontend/images
+        try {
+            if (!fsSync.existsSync(imagesDir)) {
+                fsSync.mkdirSync(imagesDir, { recursive: true });
+                console.log('Created images directory (on upload):', imagesDir);
+            }
+            cb(null, imagesDir);
+        } catch (err) {
+            console.error('Error creating images directory:', err);
+            cb(err);
+        }
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -94,21 +110,23 @@ router.post(
     createProductMiddleware,
     async (req, res) => {
         const { name, description, price, category, stock } = req.body;
-
+        console.log('req.file:', req.file);
         if (!req.file) {
             return res.status(400).json({ message: 'Product image is required.' });
         }
-
         try {
+            let imagePath = req.file.filename;
+            if (!imagePath.startsWith('images/')) {
+                imagePath = `images/${imagePath}`;
+            }
             const newProduct = new Product({
                 name,
                 description,
                 price,
-                image: req.file.filename, // Store only the filename
+                images: [imagePath],
                 category,
                 stock
             });
-
             const savedProduct = await newProduct.save();
             res.status(201).json(savedProduct);
         } catch (error) {
@@ -130,12 +148,12 @@ router.put('/products/:id',
             }
 
             if (req.file) {
-                if (product.image) {
+                if (product.images.length > 0) {
                     // Удаляем старое изображение, если оно существует и это не изображение по умолчанию
-                    const oldImagePath = path.join(path.join(__dirname, '..', '..', '..', 'frontend', 'images'), product.image.replace('products/', '')); // Corrected path resolution
+                    const oldImagePath = path.join(path.join(__dirname, '..', '..', '..', 'frontend', 'images'), product.images[0].replace('images/', '')); // Corrected path resolution
                     await fs.unlink(oldImagePath).catch(() => {});
                 }
-                product.image = req.file.filename;
+                product.images = [req.file.filename];
             }
 
             Object.assign(product, req.body);
@@ -158,9 +176,9 @@ router.delete('/products/:id', canManageProducts, async (req, res) => {
             return res.status(404).json({ message: 'Product not found' });
         }
 
-        if (product.image) {
+        if (product.images.length > 0) {
             // Удаляем изображение, если оно существует и это не изображение по умолчанию
-            const oldImagePath = path.join(path.join(__dirname, '..', '..', '..', 'frontend', 'images'), product.image.replace('products/', '')); // Corrected path resolution
+            const oldImagePath = path.join(path.join(__dirname, '..', '..', '..', 'frontend', 'images'), product.images[0].replace('images/', '')); // Corrected path resolution
             await fs.unlink(oldImagePath).catch(() => {});
         }
 
