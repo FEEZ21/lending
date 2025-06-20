@@ -321,17 +321,60 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function processOrderAndPayment(contactData) {
-    // Your existing logic to process order and payment
-    // This function should ideally take items from the backend cart
-    // For now, it might be using localStorage, which needs to be updated
-    // to fetch from the backend cart instead.
-    
-    // Example (needs to be adapted to fetch from backend cart):
-    // const cartItems = getCart(); // This needs to fetch from backend
-    
-    // ... rest of the payment processing logic ...
-    
-    alert('Заказ оформлен! (Этот функционал требует доработки для работы с бэкенд корзиной)');
-    // closeContactModal();
-    // clearCart(); // This should call backend clear cart
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert('Пожалуйста, войдите в систему для оформления заказа.');
+        return;
+    }
+
+    try {
+        // 1. Получаем корзину пользователя с бэкенда
+        const cartResponse = await fetch('https://lending-juaw.onrender.com/api/cart', {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (!cartResponse.ok) throw new Error('Ошибка получения корзины');
+        const cart = await cartResponse.json();
+        if (!cart.items || cart.items.length === 0) {
+            alert('Корзина пуста!');
+            return;
+        }
+
+        // 2. Формируем массив товаров для заказа
+        const products = cart.items.map(item => ({
+            productId: item.product._id,
+            quantity: item.quantity
+        }));
+
+        // 3. Отправляем заказ на бэкенд
+        const orderResponse = await fetch('https://lending-juaw.onrender.com/api/orders/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify({
+                products,
+                ...contactData // если бэкенд поддерживает эти поля, иначе убрать
+            })
+        });
+        const orderResult = await orderResponse.json();
+        if (!orderResponse.ok) throw new Error(orderResult.message || 'Ошибка оформления заказа');
+
+        // 4. Очищаем корзину
+        await fetch('https://lending-juaw.onrender.com/api/cart', {
+            method: 'DELETE',
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+
+        // 5. Перенаправляем на оплату, если есть ссылка
+        if (orderResult.paymentUrl) {
+            window.location.href = orderResult.paymentUrl;
+        } else {
+            alert('Заказ оформлен!');
+            closeContactModal();
+            renderCart();
+        }
+    } catch (error) {
+        alert('Ошибка оформления заказа: ' + error.message);
+    }
 } 

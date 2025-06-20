@@ -3,6 +3,7 @@ const router = express.Router();
 const Review = require('../models/Review');
 const { auth } = require('../middleware/auth');
 const { body, validationResult } = require('express-validator');
+const { Order } = require('../models/Order');
 
 // Get reviews for a product
 router.get('/product/:productId', async (req, res) => {
@@ -29,6 +30,16 @@ router.post('/', auth, [
 
     try {
         const { productId, rating, comment } = req.body;
+
+        // Проверка: покупал ли пользователь этот продукт
+        const hasBought = await Order.exists({
+            user: req.user._id,
+            status: 'PAID',
+            'products.product': productId
+        });
+        if (!hasBought) {
+            return res.status(403).json({ message: 'Вы можете оставить отзыв только на купленный товар.' });
+        }
 
         // Check if user already reviewed this product
         const existingReview = await Review.findOne({
@@ -106,6 +117,20 @@ router.delete('/:id', auth, async (req, res) => {
 
         await review.remove();
         res.json({ message: 'Review deleted' });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// Get all reviews (for main page)
+router.get('/', async (req, res) => {
+    try {
+        const reviews = await Review.find({})
+            .populate('user', 'name')
+            .populate('product', 'name')
+            .sort('-createdAt')
+            .limit(20);
+        res.json(reviews);
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

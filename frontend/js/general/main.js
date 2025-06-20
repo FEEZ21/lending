@@ -32,7 +32,7 @@ const reviewsContainer = document.querySelector('.reviews-container');
 
 document.addEventListener('DOMContentLoaded', () => {
     renderCategories(); // Call new function to render categories
-    renderReviews(reviews);
+    fetchAndRenderReviews();
     setupNavigation();
     setupAdminButton();
     setupFilterButtons();
@@ -162,6 +162,26 @@ async function renderCategories() {
             mainContentGrid.appendChild(cardElement);
         }
     });
+}
+
+// Новая функция: загрузка отзывов с бэкенда и рендер
+async function fetchAndRenderReviews() {
+    try {
+        const response = await fetch('https://lending-juaw.onrender.com/api/reviews');
+        if (!response.ok) throw new Error('Ошибка загрузки отзывов');
+        const reviews = await response.json();
+        // Приводим к нужному формату для шаблона
+        const formatted = reviews.map(r => ({
+            author: r.user?.name || 'Аноним',
+            text: r.comment,
+            rating: r.rating,
+            product: r.product?.name || ''
+        }));
+        renderReviews(formatted);
+    } catch (e) {
+        console.error('Ошибка загрузки отзывов:', e);
+        renderReviews([]);
+    }
 }
 
 async function renderReviews(reviews) {
