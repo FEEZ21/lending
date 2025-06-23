@@ -227,7 +227,6 @@ body {
 /* About Section */
 .about {
     padding: 80px 0;
-    background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
 }
 
 .about-container {
@@ -449,7 +448,6 @@ body {
 /* Equipment Reviews Section */
 .equipment-reviews {
     padding: 60px 0;
-    background-color: #f5f5f5;
 }
 
 .equipment-reviews h2 {
