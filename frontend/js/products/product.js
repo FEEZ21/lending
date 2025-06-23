@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         addToCartBtn.addEventListener('click', async () => {
             const token = localStorage.getItem('token');
-            
+
             if (!token) {
                 alert('Пожалуйста, войдите в систему, чтобы добавить товар в корзину');
                 return;
@@ -92,4 +92,4 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error('Error loading product details:', error);
         document.querySelector('.product-details').innerHTML = '<p>Ошибка при загрузке деталей товара.</p>';
     }
-}); 
+});
