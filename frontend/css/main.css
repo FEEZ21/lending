@@ -559,4 +559,101 @@ body {
 .read-more:hover {
     background: #333;
     transform: translateY(-2px);
+}
+
+/* Review Page Styles */
+.review-section {
+    margin: 40px auto 0 auto;
+    max-width: 900px;
+    padding: 0 20px;
+}
+
+.review-info {
+    background: none;
+    box-shadow: none;
+    border: none;
+    padding: 0;
+}
+
+.review-image {
+    width: 100%;
+    max-width: 400px;
+    display: block;
+    margin: 0 auto 30px auto;
+    border-radius: 12px;
+}
+
+.review-info h1 {
+    font-size: 2.2em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.review-date {
+    color: #888;
+    font-size: 1em;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.review-intro {
+    font-size: 1.15em;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.review-content {
+    font-size: 1.1em;
+    margin-bottom: 30px;
+}
+
+.comparison-section {
+    max-width: 900px;
+    margin: 40px auto 0 auto;
+    padding: 0 20px;
+}
+
+.review-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 30px 0;
+    background: #fff;
+}
+.review-table th, .review-table td {
+    border: 1px solid #ddd;
+    padding: 12px 16px;
+    text-align: left;
+}
+.review-table th {
+    background: #f5f5f5;
+    font-weight: 700;
+}
+.review-table tr:nth-child(even) {
+    background: #fafafa;
+}
+
+.faq-section {
+    max-width: 900px;
+    margin: 40px auto 60px auto;
+    padding: 0 20px;
+}
+.faq-list {
+    margin-top: 20px;
+}
+.faq-item {
+    background: #f8f8f8;
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 16px;
+    font-size: 1.08em;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+}
+
+@media (max-width: 600px) {
+    .review-section, .comparison-section, .faq-section {
+        padding: 0 5px;
+    }
+    .review-image {
+        max-width: 100%;
+    }
 } 
