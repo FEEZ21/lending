@@ -374,4 +374,143 @@ body {
 /* Ensure admin add product button is displayed when needed */
 #admin-add-product-btn {
     display: none;
+}
+
+/* Equipment Reviews Section */
+.equipment-reviews {
+    padding: 40px 0;
+    background-color: #f5f5f5;
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    padding: 20px;
+}
+
+.news-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.news-card:hover {
+    transform: translateY(-5px);
+}
+
+.news-image {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.news-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.news-tag {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #000;
+    color: white;
+    padding: 4px 12px;
+    font-size: 12px;
+    border-radius: 4px;
+    font-family: 'Arial', sans-serif;
+}
+
+.news-content {
+    padding: 20px;
+}
+
+.news-content h3 {
+    margin: 0 0 15px;
+    font-size: 18px;
+    line-height: 1.4;
+    font-weight: 600;
+    color: #333;
+    font-family: 'Arial', sans-serif;
+}
+
+.news-content p {
+    color: #666;
+    margin: 0 0 20px;
+    font-size: 14px;
+    line-height: 1.6;
+    font-family: 'Arial', sans-serif;
+}
+
+.news-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+}
+
+.news-date {
+    color: #999;
+    font-size: 14px;
+    font-family: 'Arial', sans-serif;
+}
+
+.read-more {
+    background: #000;
+    color: white;
+    padding: 8px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    font-family: 'Arial', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.read-more:hover {
+    background: #333;
+}
+
+/* About Section Styles */
+.about-content {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.about-text h3 {
+    margin: 30px 0 15px;
+    color: #333;
+}
+
+.about-text p {
+    margin-bottom: 20px;
+    line-height: 1.6;
+    color: #666;
+}
+
+.about-text ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.about-text ul li {
+    margin-bottom: 10px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.about-text ul li:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #333;
 } 
