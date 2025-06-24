@@ -13,15 +13,19 @@ body {
 
 /* Header and Navigation */
 .header {
+    position: static !important;
+    top: unset !important;
+    width: 100%;
+    z-index: auto;
     background-color: #fff;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    position: fixed;
-    width: 100%;
-    top: 0;
-    z-index: 1000;
 }
 
 .nav {
+    position: static !important;
+    top: unset !important;
+    width: 100%;
+    z-index: auto;
     max-width: 1200px;
     margin: 0 auto;
     padding: 1rem;

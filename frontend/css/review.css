@@ -80,4 +80,50 @@
     .review-image {
         max-width: 100%;
     }
+}
+
+/* Добавлено для улучшения читаемости текста и списков на review.html */
+.review-section p,
+.review-section h2,
+.review-section h3 {
+    margin-bottom: 18px;
+}
+
+.review-section ul {
+    margin-bottom: 24px;
+    padding-left: 24px;
+}
+
+.review-section li {
+    margin-bottom: 20px;
+}
+
+.comparison-section p,
+.comparison-section h2,
+.comparison-section h3 {
+    margin-bottom: 18px;
+}
+
+.comparison-section ul {
+    margin-bottom: 24px;
+    padding-left: 24px;
+}
+
+.comparison-section li {
+    margin-bottom: 20px;
+}
+
+.faq-section p,
+.faq-section h2,
+.faq-section h3 {
+    margin-bottom: 18px;
+}
+
+.faq-section ul {
+    margin-bottom: 24px;
+    padding-left: 24px;
+}
+
+.faq-section li {
+    margin-bottom: 20px;
 } 
