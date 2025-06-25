@@ -66,4 +66,10 @@ router.get('/equipment-reviews/:id', async (req, res) => {
   }
 });
 
+// Публичный GET-роут для обзоров оборудования
+router.get('/', async (req, res) => {
+  const reviews = await EquipmentReview.find().sort({ date: -1 });
+  res.json(reviews);
+});
+
 module.exports = router; 

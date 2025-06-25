@@ -92,6 +92,7 @@ app.use('/api/orders', require('./routes/orderRoutes'));
 app.use('/api/admin/categories', require('./routes/categoryRoutes'));
 app.use('/api/categories', require('./routes/categoryPublicRoutes'));
 app.use('/api/admin', require('./routes/equipmentReviewRoutes'));
+app.use('/api/equipment-reviews', require('./routes/equipmentReviewRoutes'));
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/lending', {
