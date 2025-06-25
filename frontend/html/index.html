@@ -37,63 +37,12 @@
         </section>
 
         <section id="equipment-reviews" class="equipment-reviews">
-            <h2>Обзоры оборудования</h2>
+            <h2 style="display:flex; align-items:center; gap:10px;">
+                Обзоры оборудования
+                <button id="add-review-btn" title="Добавить обзор" style="display:none; width:36px; height:36px; border-radius:50%; background:#007bff; color:#fff; border:none; font-size:24px; cursor:pointer; align-items:center; justify-content:center; display:flex;">+</button>
+            </h2>
             <div class="news-grid">
-                <article class="news-card">
-                    <div class="news-image">
-                        <img src="../images/reviews/ROC-4.jpg" alt="ROC-4 Усилитель двойного диапазона">
-                    </div>
-                    <div class="news-content">
-                        <h3>Нужна экстремальная дальность дрона? Этот двухдиапазонный усилитель работает на мощности 10Вт более 8 часов!</h3>
-                        <p>Введение: Освободитесь от ограничений сигнала. Представьте, что вы теряете важные кадры во время воздушной съемки или испытываете проблемы с видео во время полета...</p>
-                        <div class="news-footer">
-                            <span class="news-date">19 июня 2025</span>
-                            <a href="review.html?id=roc4" class="read-more">ПОДРОБНЕЕ</a>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="news-card">
-                    <div class="news-image">
-                        <img src="../images/reviews/VIC-4.jpg" alt="VIC-4 Мобильная защита от дронов">
-                    </div>
-                    <div class="news-content">
-                        <h3>Нужна мобильная защита от дронов? Эта 4-канальная система нейтрализует БПЛА с выходной мощностью 100 Вт!</h3>
-                        <p>Введение: В современном мире безопасности несанкционированные дроны представляют беспрецедентные риски для военных объектов...</p>
-                        <div class="news-footer">
-                            <span class="news-date">17 июня 2025</span>
-                            <a href="review.html?id=vic4" class="read-more">ПОДРОБНЕЕ</a>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="news-card">
-                    <div class="news-image">
-                        <img src="../images/reviews/drone-booster.jpg" alt="Усилитель сигнала дрона">
-                    </div>
-                    <div class="news-content">
-                        <h3>Проблемы с FPV сигналом? Решите их с помощью усиления 40дБм и защиты IP68!</h3>
-                        <p>Введение: Улучшите качество сигнала вашего дрона. Забудьте о потере видеосигнала и проблемах с управлением во время важных полетов...</p>
-                        <div class="news-footer">
-                            <span class="news-date">12 июня 2025</span>
-                            <a href="review.html?id=booster" class="read-more">ПОДРОБНЕЕ</a>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="news-card">
-                    <div class="news-image">
-                        <img src="../images/reviews/VIC-2.jpg" alt="VIC-2 Портативная система защиты">
-                    </div>
-                    <div class="news-content">
-                        <h3>Несанкционированные дроны в вашем воздушном пространстве? Эта портативная система остановит их за секунды!</h3>
-                        <p>Введение: Растущая потребность в решениях против дронов. С быстрым распространением FPV дронов для развлечений и коммерческого использования...</p>
-                        <div class="news-footer">
-                            <span class="news-date">10 июня 2025</span>
-                            <a href="review.html?id=vic2" class="read-more">ПОДРОБНЕЕ</a>
-                        </div>
-                    </div>
-                </article>
+                <!-- Reviews will be loaded dynamically -->
             </div>
         </section>
 
@@ -138,5 +87,19 @@
     <script src="../js/general/main.js"></script>
     <script src="../js/general/cart.js"></script>
     <script src="../js/general/auth-modal.js"></script>
+    <!-- Кнопка "+" и модальное окно для добавления обзора -->
+    <div id="add-review-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:1000; align-items:center; justify-content:center;">
+        <form id="add-review-form" style="background:#fff; padding:24px 20px; border-radius:10px; max-width:400px; width:90vw; margin:auto; box-shadow:0 2px 16px rgba(0,0,0,0.2); position:relative; display:flex; flex-direction:column; gap:8px;">
+            <button type="button" id="close-add-review" style="position:absolute; top:10px; right:10px; background:none; border:none; font-size:20px; color:#888; cursor:pointer;">&times;</button>
+            <h3 style="margin-top:0;">Добавить обзор</h3>
+            <input type="text" name="title" placeholder="Заголовок" required style="width:100%;">
+            <textarea name="shortDescription" placeholder="Краткое описание" required style="width:100%;"></textarea>
+            <textarea name="fullText" placeholder="Полный текст" required style="width:100%;"></textarea>
+            <input type="date" name="date" required style="width:100%;">
+            <input type="file" name="image" accept="image/*" required>
+            <button type="submit" style="background:#007bff; color:#fff; border:none; padding:8px 16px; border-radius:4px; cursor:pointer;">Сохранить</button>
+            <span id="add-review-message" style="color:red; display:block; margin-top:8px;"></span>
+        </form>
+    </div>
 </body>
 </html>
