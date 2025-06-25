@@ -321,15 +321,15 @@ async function loadEquipmentReviews() {
             const card = document.createElement('article');
             card.className = 'news-card';
             card.innerHTML = `
-                <div class=\"news-image\">
-                    <img src=\"https://lending-juaw.onrender.com/${review.image}\" alt=\"${review.title}\">
+                <div class="news-image">
+                    <img src="https://lending-juaw.onrender.com/${review.image}" alt="${review.title}">
                 </div>
-                <div class=\"news-content\">
+                <div class="news-content">
                     <h3>${review.title}</h3>
                     <p>${review.shortDescription}</p>
-                    <div class=\"news-footer\">
-                        <span class=\"news-date\">${new Date(review.date).toLocaleDateString()}</span>
-                        <a href=\"review.html?id=${review._id}\" class=\"read-more\">ПОДРОБНЕЕ</a>
+                    <div class="news-footer">
+                        <span class="news-date">${new Date(review.date).toLocaleDateString()}</span>
+                        <a href="review.html?id=${review._id}" class="read-more">ПОДРОБНЕЕ</a>
                     </div>
                 </div>
             `;
