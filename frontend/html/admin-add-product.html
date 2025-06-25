@@ -33,6 +33,7 @@
             <div class="admin-buttons">
                 <button id="add-category-btn" class="admin-btn active">Добавить категорию</button>
                 <button id="add-product-item-btn" class="admin-btn">Добавить товар</button>
+                <button id="admin-equipment-reviews-btn" class="admin-btn">Добавить обзор оборудования</button>
             </div>
 
             <div id="add-category-section" class="admin-section">
@@ -102,6 +103,40 @@
                         <button type="submit">Добавить товар</button>
                     </form>
                     <p id="add-product-item-message"></p>
+                </div>
+            </div>
+
+            <div id="equipment-reviews-section" class="admin-section" style="display: none;">
+                <div class="admin-add-product-container">
+                    <h2>Обзоры оборудования</h2>
+                    <div id="equipment-reviews-list">
+                        <!-- Здесь будет список обзоров -->
+                    </div>
+                    <form id="equipment-review-form" enctype="multipart/form-data" style="margin-top: 30px;">
+                        <div class="form-group">
+                            <label for="review-title">Заголовок:</label>
+                            <input type="text" id="review-title" name="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="review-short">Краткое описание:</label>
+                            <textarea id="review-short" name="shortDescription" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="review-content">Полный текст обзора:</label>
+                            <textarea id="review-content" name="content" rows="8" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="review-date">Дата публикации:</label>
+                            <input type="date" id="review-date" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="review-image">Изображение:</label>
+                            <input type="file" id="review-image" name="image" accept="image/*">
+                        </div>
+                        <button type="submit">Сохранить обзор</button>
+                        <button type="button" id="cancel-equipment-review" class="admin-btn">Отмена</button>
+                    </form>
+                    <p id="equipment-review-message"></p>
                 </div>
             </div>
         </div>
