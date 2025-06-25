@@ -73,15 +73,6 @@
     box-shadow: 0 1px 4px rgba(0,0,0,0.03);
 }
 
-@media (max-width: 600px) {
-    .review-section, .comparison-section, .faq-section {
-        padding: 0 5px;
-    }
-    .review-image {
-        max-width: 100%;
-    }
-}
-
 /* Добавлено для улучшения читаемости текста и списков на review.html */
 .review-section p,
 .review-section h2,
