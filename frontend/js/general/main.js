@@ -36,48 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
     setupNavigation();
     setupAdminButton();
     setupFilterButtons();
-    // Показывать "+" только для администратора
-    const isAdmin = localStorage.getItem('isAdmin') === 'true'; // или ваша логика
-    const addReviewBtn = document.getElementById('add-review-btn');
-    const addReviewModal = document.getElementById('add-review-modal');
-    const closeAddReview = document.getElementById('close-add-review');
-    const addReviewForm = document.getElementById('add-review-form');
-    const addReviewMessage = document.getElementById('add-review-message');
-
-    if (isAdmin && addReviewBtn) {
-        addReviewBtn.style.display = 'flex';
-    }
-    if (addReviewBtn && addReviewModal && closeAddReview && addReviewForm) {
-        addReviewBtn.onclick = () => {
-            addReviewModal.style.display = 'flex';
-        };
-        closeAddReview.onclick = () => {
-            addReviewModal.style.display = 'none';
-            addReviewForm.reset();
-            addReviewMessage.textContent = '';
-        };
-        addReviewForm.onsubmit = async function(e) {
-            e.preventDefault();
-            const form = e.target;
-            const formData = new FormData(form);
-            const token = localStorage.getItem('token');
-            try {
-                const response = await fetch('https://lending-juaw.onrender.com/api/admin/equipment-reviews', {
-                    method: 'POST',
-                    headers: { 'Authorization': 'Bearer ' + token },
-                    body: formData
-                });
-                if (!response.ok) throw new Error('Ошибка при добавлении обзора');
-                addReviewModal.style.display = 'none';
-                form.reset();
-                addReviewMessage.textContent = '';
-                // Обновить список обзоров без перезагрузки страницы
-                await loadEquipmentReviews();
-            } catch (err) {
-                addReviewMessage.textContent = err.message;
-            }
-        };
-    }
     // Загружаем обзоры при загрузке страницы
     loadEquipmentReviews();
 });
