@@ -147,8 +147,11 @@
                     <h2>Добавить полный обзор (как в review-data.js)</h2>
                     <form id="full-review-form" enctype="multipart/form-data">
                         <div class="form-group">
-                            <label for="full-review-id">ID (латиницей, уникальный):</label>
-                            <input type="text" id="full-review-id" name="id" required>
+                            <label for="full-review-id">Выберите обзор:</label>
+                            <select id="full-review-id" name="id" required>
+                                <option value="">Выберите обзор...</option>
+                                <!-- Список обзоров будет подгружаться динамически -->
+                            </select>
                         </div>
                         <div class="form-group">
                             <label for="full-review-title">Заголовок:</label>

@@ -54,11 +54,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Переключение на "Добавить полный обзор"
     if (addFullReviewBtn) {
-        addFullReviewBtn.addEventListener('click', () => {
+        addFullReviewBtn.addEventListener('click', async () => {
             resetActiveButtons();
             addFullReviewBtn.classList.add('active');
             hideAllSections();
             if (fullReviewSection) fullReviewSection.style.display = '';
+
+            // Динамически подгружаем обзоры в select
+            const select = document.getElementById('full-review-id');
+            if (select) {
+                select.innerHTML = '<option value="">Загрузка...</option>';
+                try {
+                    const response = await fetch('https://lending-juaw.onrender.com/api/equipment-reviews');
+                    if (!response.ok) throw new Error('Ошибка загрузки обзоров');
+                    const reviews = await response.json();
+                    if (reviews.length === 0) {
+                        select.innerHTML = '<option value="">Нет обзоров</option>';
+                        select.disabled = true;
+                    } else {
+                        select.disabled = false;
+                        select.innerHTML = '<option value="">Выберите обзор...</option>' +
+                            reviews.map(r => `<option value="${r._id}">${r.title}</option>`).join('');
+                    }
+                } catch (e) {
+                    select.innerHTML = '<option value="">Ошибка загрузки</option>';
+                    select.disabled = true;
+                }
+            }
         });
     }
 
