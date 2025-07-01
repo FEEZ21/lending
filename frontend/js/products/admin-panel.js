@@ -7,12 +7,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const equipmentReviewsSection = document.getElementById('equipment-reviews-section');
     const reviewForm = document.getElementById('equipment-review-form');
     const cancelReviewBtn = document.getElementById('cancel-equipment-review');
+    const addFullReviewBtn = document.getElementById('add-full-review-btn');
+    const fullReviewSection = document.getElementById('full-review-section');
+    const fullReviewForm = document.getElementById('full-review-form');
+    const cancelFullReviewBtn = document.getElementById('cancel-full-review');
 
     // Функция для сброса активных классов
     function resetActiveButtons() {
         addCategoryBtn.classList.remove('active');
         addProductItemBtn.classList.remove('active');
         equipmentReviewsBtn.classList.remove('active');
+        if (addFullReviewBtn) addFullReviewBtn.classList.remove('active');
     }
 
     // Функция для скрытия всех секций
@@ -20,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         addCategorySection.style.display = 'none';
         addProductItemSection.style.display = 'none';
         equipmentReviewsSection.style.display = 'none';
+        if (fullReviewSection) fullReviewSection.style.display = 'none';
     }
 
     // Переключение на "Категории"
@@ -45,6 +51,16 @@ document.addEventListener('DOMContentLoaded', () => {
         hideAllSections();
         equipmentReviewsSection.style.display = '';
     });
+
+    // Переключение на "Добавить полный обзор"
+    if (addFullReviewBtn) {
+        addFullReviewBtn.addEventListener('click', () => {
+            resetActiveButtons();
+            addFullReviewBtn.classList.add('active');
+            hideAllSections();
+            if (fullReviewSection) fullReviewSection.style.display = '';
+        });
+    }
 
     // Скрыть форму добавления обзора (отмена)
     if (cancelReviewBtn && reviewForm) {
@@ -88,6 +104,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 messageElement.textContent = 'Произошла ошибка при отправке данных. Пожалуйста, попробуйте позже.';
                 messageElement.className = 'message-error';
             }
+        });
+    }
+
+    // Обработка отправки формы полного обзора
+    if (fullReviewForm) {
+        fullReviewForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const messageElement = document.getElementById('full-review-message');
+            messageElement.textContent = '';
+            messageElement.className = '';
+
+            const formData = new FormData(fullReviewForm);
+            // Для теста: выводим все поля в консоль
+            const data = {};
+            formData.forEach((value, key) => {
+                data[key] = value;
+            });
+            console.log('Данные полного обзора:', data);
+            messageElement.textContent = '✅ Данные полного обзора выведены в консоль (реализуйте отправку на backend по необходимости)';
+            messageElement.className = 'message-success';
+            fullReviewForm.reset();
+        });
+    }
+
+    // Кнопка отмены для полного обзора
+    if (cancelFullReviewBtn && fullReviewForm) {
+        cancelFullReviewBtn.addEventListener('click', () => {
+            fullReviewForm.reset();
         });
     }
 

@@ -35,6 +35,7 @@
                 <button id="add-category-btn" class="admin-btn active">Добавить категорию</button>
                 <button id="add-product-item-btn" class="admin-btn">Добавить товар</button>
                 <button id="admin-equipment-reviews-btn" class="admin-btn">Добавить обзор оборудования</button>
+                <button id="add-full-review-btn" class="admin-btn">Добавить полный обзор</button>
             </div>
 
             <div id="add-category-section" class="admin-section">
@@ -138,6 +139,49 @@
                         <button type="button" id="cancel-equipment-review" class="admin-btn">Отмена</button>
                     </form>
                     <p id="equipment-review-message"></p>
+                </div>
+            </div>
+
+            <div id="full-review-section" class="admin-section" style="display: none;">
+                <div class="admin-add-product-container">
+                    <h2>Добавить полный обзор (как в review-data.js)</h2>
+                    <form id="full-review-form" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="full-review-id">ID (латиницей, уникальный):</label>
+                            <input type="text" id="full-review-id" name="id" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="full-review-title">Заголовок:</label>
+                            <input type="text" id="full-review-title" name="title" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="full-review-image">Изображение:</label>
+                            <input type="file" id="full-review-image" name="image" accept="image/*">
+                        </div>
+                        <div class="form-group">
+                            <label for="full-review-date">Дата публикации:</label>
+                            <input type="date" id="full-review-date" name="date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="full-review-intro">Введение (intro):</label>
+                            <textarea id="full-review-intro" name="intro" rows="3" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="full-review-content">Полный текст (content, можно HTML):</label>
+                            <textarea id="full-review-content" name="content" rows="8" required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="full-review-comparison">Таблица сравнения (comparison, можно HTML):</label>
+                            <textarea id="full-review-comparison" name="comparison" rows="6"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="full-review-faq">FAQ (можно HTML):</label>
+                            <textarea id="full-review-faq" name="faq" rows="6"></textarea>
+                        </div>
+                        <button type="submit">Сохранить полный обзор</button>
+                        <button type="button" id="cancel-full-review" class="admin-btn">Отмена</button>
+                    </form>
+                    <p id="full-review-message"></p>
                 </div>
             </div>
         </div>
