@@ -400,6 +400,19 @@ body {
     border: none;
 }
 
+.logout-button, #admin-add-product-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.logout-button:hover, #admin-add-product-btn:hover {
+    background-color: #0056b3;
+    color: #fff;
+}
+
 #admin-add-product-btn {
     display: none;
 }
