@@ -355,13 +355,14 @@ body {
     align-items: center;
 }
 
-.auth-btn {
+.auth-btn, .login-btn, .register-btn, .logout-button, .cart-btn, #admin-add-product-btn {
+    min-width: 120px;
     padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
     font-size: 14px;
-    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
 }
 
 .login-btn {
@@ -393,6 +394,10 @@ body {
 
 .cart-btn:hover {
     background-color: #0056b3;
+}
+
+.register-btn, .cart-btn {
+    border: none;
 }
 
 #admin-add-product-btn {
@@ -649,6 +654,14 @@ body {
     .equipment-reviews h2 {
         font-size: 2em;
     }
+}
+
+@media (max-width: 375px) {
+  .auth-buttons, .nav-links {
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 4px !important;
+  }
 }
 
 /* Ensure admin add product button is displayed when needed */
