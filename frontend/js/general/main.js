@@ -38,6 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
     setupFilterButtons();
     // Загружаем обзоры при загрузке страницы
     loadEquipmentReviews();
+    // Добавляем обработчик для кнопки Корзина
+    const cartBtn = document.querySelector('.cart-btn');
+    if (cartBtn) {
+        cartBtn.addEventListener('click', () => {
+            window.location.href = 'cart.html';
+        });
+    }
 });
 
 // Added: Function to check user role and display/setup admin button

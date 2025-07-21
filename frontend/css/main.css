@@ -355,16 +355,13 @@ body {
     align-items: center;
 }
 
-.auth-btn, .login-btn, .register-btn, .logout-button, .cart-btn, #admin-add-product-btn {
+.auth-btn {
     padding: 8px 16px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     font-size: 14px;
     transition: all 0.3s ease;
-    min-width: 120px;
-    text-align: center;
-    box-sizing: border-box;
 }
 
 .login-btn {
@@ -378,19 +375,26 @@ body {
     color: white;
 }
 
-.register-btn, .cart-btn, .logout-button, #admin-add-product-btn {
+.register-btn {
     background-color: #007bff;
     color: white;
-    border: 1px solid #007bff;
 }
 
-.register-btn:hover, .cart-btn:hover, .logout-button:hover, #admin-add-product-btn:hover {
+.register-btn:hover {
     background-color: #0056b3;
-    border-color: #0056b3;
-    color: #fff;
 }
 
-/* Ensure admin add product button is displayed when needed */
+.cart-btn {
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.cart-btn:hover {
+    background-color: #0056b3;
+}
+
 #admin-add-product-btn {
     display: none;
 }
