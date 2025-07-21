@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (response.status === 404) {
                 document.querySelector('.product-details').innerHTML = '<p>Товар не найден.</p>';
             } else {
-                throw new Error('Failed to fetch product details');
+                throw new Error('Не удалось получить детали товара');
             }
             return;
         }
@@ -78,18 +78,18 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (!response.ok) {
                      // Check for specific errors like insufficient stock or not found
                     const errorData = await response.json();
-                    throw new Error(errorData.message || 'Failed to add to cart');
+                    throw new Error(errorData.message || 'Не удалось добавить товар в корзину');
                 }
 
                 alert('Товар добавлен в корзину');
             } catch (error) {
-                console.error('Error adding to cart:', error);
+                console.error('Ошибка при добавлении в корзину:', error);
                 alert(`Ошибка при добавлении товара в корзину: ${error.message}`);
             }
         });
 
     } catch (error) {
-        console.error('Error loading product details:', error);
+        console.error('Ошибка при загрузке деталей товара:', error);
         document.querySelector('.product-details').innerHTML = '<p>Ошибка при загрузке деталей товара.</p>';
     }
 });

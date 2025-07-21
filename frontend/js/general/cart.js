@@ -27,7 +27,7 @@ async function renderCart() {
         if (!response.ok) {
             // If response is not OK, try to parse error message
              const errorData = await response.json();
-             throw new Error(errorData.message || 'Failed to fetch cart data');
+             throw new Error(errorData.message || 'Не удалось загрузить данные корзины');
         }
 
         const cart = await response.json(); // Backend should return the cart object
@@ -122,13 +122,13 @@ async function removeFromCartBackend(productId) {
 
         if (!response.ok) {
             const errorData = await response.json();
-            throw new Error(errorData.message || 'Failed to remove item from cart');
+            throw new Error(errorData.message || 'Не удалось удалить товар из корзины');
         }
 
-        alert('Товар удален из корзины');
+        alert('Товар удалён из корзины');
         renderCart(); // Re-render cart after successful removal
     } catch (error) {
-        console.error('Error removing item from cart:', error);
+        console.error('Ошибка при удалении товара из корзины:', error);
         alert(`Ошибка при удалении товара из корзины: ${error.message}`);
     }
 }
@@ -147,13 +147,13 @@ async function clearCartBackend() {
 
         if (!response.ok) {
              const errorData = await response.json();
-            throw new Error(errorData.message || 'Failed to clear cart');
+            throw new Error(errorData.message || 'Не удалось очистить корзину');
         }
 
         alert('Корзина очищена');
         renderCart(); // Re-render cart after successful clearing
     } catch (error) {
-        console.error('Error clearing cart:', error);
+        console.error('Ошибка при очистке корзины:', error);
         alert(`Ошибка при очистке корзины: ${error.message}`);
     }
 }

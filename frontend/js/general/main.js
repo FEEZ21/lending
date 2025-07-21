@@ -103,7 +103,7 @@ async function renderCategories() {
     try {
         const response = await fetch('html/main-product-card.html'); // Reusing existing product card template
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`Ошибка HTTP! Статус: ${response.status}`);
         }
         cardTemplate = await response.text();
     } catch (error) {
@@ -117,7 +117,7 @@ async function renderCategories() {
     try {
         const response = await fetch(`https://lending-juaw.onrender.com/api/categories`); // Fetch categories
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`Ошибка HTTP! Статус: ${response.status}`);
         }
         categories = await response.json();
     } catch (error) {
@@ -201,11 +201,13 @@ async function renderReviews(reviews) {
     try {
         const response = await fetch('html/review-card.html');
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+            throw new Error(`Ошибка HTTP! Статус: ${response.status}`);
         }
         reviewCardTemplate = await response.text();
     } catch (error) {
-        console.error('Error loading review card HTML template:', error);
+        // Удаляю из вывода ошибки любые URL
+        const msg = error && error.message ? error.message.replace(/https?:\/\/\S+/g, '') : error;
+        console.error('Ошибка загрузки шаблона карточки отзыва:', msg);
         reviewsContainer.innerHTML = '<p>Не удалось загрузить отзывы.</p>';
         return;
     }
@@ -244,18 +246,38 @@ async function renderReviews(reviews) {
 
 function setupNavigation() {
     const navLinks = document.querySelectorAll('.nav-links a');
+    const sections = document.querySelectorAll('section[id]');
     
+    // Создаем observer для отслеживания видимых секций
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                // Находим соответствующую ссылку и добавляем ей класс active
+                const activeId = entry.target.getAttribute('id');
+                navLinks.forEach(link => {
+                    const linkHref = link.getAttribute('href').substring(1);
+                    if (linkHref === activeId) {
+                        link.classList.add('active');
+                    } else {
+                        link.classList.remove('active');
+                    }
+                });
+            }
+        });
+    }, { threshold: 0.5 }); // Секция считается видимой, когда показана наполовину
+
+    // Наблюдаем за всеми секциями
+    sections.forEach(section => observer.observe(section));
+    
+    // Обработчик клика только для плавного скролла
     navLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             e.preventDefault();
             const targetId = link.getAttribute('href').substring(1);
             const targetSection = document.getElementById(targetId);
-            
-            navLinks.forEach(l => l.classList.remove('active'));
-
-            link.classList.add('active');
-            
-            targetSection.scrollIntoView({ behavior: 'smooth' });
+            if (targetSection) {
+                targetSection.scrollIntoView({ behavior: 'smooth' });
+            }
         });
     });
 }

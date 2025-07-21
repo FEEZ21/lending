@@ -14,7 +14,7 @@ async function initAdminProductItemForm() {
         try {
             const response = await fetch('https://lending-juaw.onrender.com/api/categories');
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw new Error(`Ошибка HTTP! Статус: ${response.status}`);
             }
             const categories = await response.json();
             categorySelect.innerHTML = '<option value="">Выберите категорию</option>'; // Clear existing options
@@ -67,7 +67,7 @@ async function initAdminProductItemForm() {
                 messageDiv.className = 'message-error';
             }
         } catch (error) {
-            console.error('Error adding product:', error);
+            console.error('Ошибка при добавлении товара:', error);
             messageDiv.textContent = 'Произошла ошибка при отправке данных.';
             messageDiv.className = 'message-error';
         }

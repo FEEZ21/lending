@@ -359,6 +359,7 @@ body {
     min-width: 120px;
     padding: 8px 16px;
     font-size: 14px;
+    border-radius: 4px;
     display: inline-flex;
     align-items: center;
     justify-content: center;

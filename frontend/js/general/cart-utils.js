@@ -41,7 +41,7 @@ const CartUtils = {
 
             if (!response.ok) {
                 const errorData = await response.json();
-                throw new Error(errorData.message || 'Failed to add item to cart');
+                throw new Error(errorData.message || 'Не удалось добавить товар в корзину');
             }
 
             alert('Товар добавлен в корзину!');
@@ -49,10 +49,10 @@ const CartUtils = {
             if (typeof renderCart === 'function') {
                 renderCart();
             } else {
-                console.warn('renderCart function not available');
+                console.warn('Функция renderCart недоступна');
             }
         } catch (error) {
-            console.error('Error adding item to cart:', error);
+            console.error('Ошибка при добавлении товара в корзину:', error);
             alert(`Ошибка при добавлении товара в корзину: ${error.message}`);
         }
     },
