@@ -57,6 +57,10 @@
     display: block;
 }
 
+.auth-form h2 {
+  margin-bottom: 16px;
+}
+
 .form-group {
     margin-bottom: 15px;
 }
